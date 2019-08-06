@@ -1,17 +1,31 @@
 import React, { Component } from 'react'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 import './login.less'
 import logo from './images/logo.jpg'
+import {reqLogin} from '../../api/index'
 // 登录的路由组件
 class Login extends Component {
     handleSubmit = (event) => {
         // 阻止表单默认行为
         event.preventDefault();
         // 对所有的表单字段进行校验
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             // 校验成功
             if (!err) {
-                console.log('提交登录的ajax请求', values);
+                // console.log('提交登录的ajax请求', values);
+                const {username,password} = values;
+                const result = await reqLogin(username,password);
+                // console.log('请求成功',response.data);
+                // const result = response.data;
+                if(result.status === 0){// 登录成功
+                    // 提示登录成功
+                    message.success('登录成功');
+                    // 跳转到管理界面（不需要再回退到登录界面，所以用replace）
+                    this.props.history.replace('/')
+                }else{// 登录失败
+                    // 提示错误信息
+                    message.error(result.msg);
+                }
             }else{
                 console.log('校验失败!');
             }

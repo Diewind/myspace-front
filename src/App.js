@@ -11,7 +11,7 @@ export default class App extends Component {
             <BrowserRouter>
                 <Switch>{/* 只匹配其中一个 */}
                     <Route path='/login' component={Login}></Route>
-                    <Route path='/admin' component={Admin}></Route>
+                    <Route path='/' component={Admin}></Route>
                 </Switch>
                 
             </BrowserRouter>

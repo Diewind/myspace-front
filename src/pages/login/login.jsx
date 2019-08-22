@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import {Redirect} from 'react-router-dom'
 import { Form, Icon, Input, Button, message } from 'antd';
 import './login.less'
-import logo from './images/logo.jpg'
+import logo from '../../assets/images/logo.jpg'
 import {reqLogin} from '../../api/index'
+import memoryUtils from '../../utils/memoryUtils'
+import storageUtils from '../../utils/storageUtils'
 // 登录的路由组件
 class Login extends Component {
     handleSubmit = (event) => {
@@ -20,8 +23,12 @@ class Login extends Component {
                 if(result.status === 0){// 登录成功
                     // 提示登录成功
                     message.success('登录成功');
+                    // 保存user
+                    const user = result.data || {};
+                    memoryUtils.user = user;// 保存在内存中
+                    storageUtils.saveUser(user);// 保存在local中
                     // 跳转到管理界面（不需要再回退到登录界面，所以用replace）
-                    this.props.history.replace('/')
+                    this.props.history.replace('/');
                 }else{// 登录失败
                     // 提示错误信息
                     message.error(result.msg);
@@ -54,6 +61,11 @@ class Login extends Component {
     }
 
     render() {
+        // 如果用户已经登录，自动跳转到管理界面
+        const user = memoryUtils.user;
+        if(user && user.id){
+            return <Redirect to='/' />;
+        }
         // 得到具有强大功能的form对象
         const form = this.props.form;
         const { getFieldDecorator } = form;

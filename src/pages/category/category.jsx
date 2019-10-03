@@ -154,7 +154,8 @@ class Category extends Component {
     addCategory = () => {
         this.form.validateFields(async (err, values) => {
             if (!err) {
-                let {parentId,categoryName} = this.form.getFieldsValue();
+                // let {parentId,categoryName} = this.form.getFieldsValue();
+                let {parentId,categoryName} = values;
                 const result = await reqAddCategory(parentId,categoryName);
                 try {
                     let {status,msg} = result;

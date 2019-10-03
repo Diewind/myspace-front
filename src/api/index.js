@@ -12,9 +12,16 @@ export const reqLogin = (username,password) => ajax(`${adminUrl}user/login`,{use
 // 添加用户
 export const reqAddUser = (user) => ajax('/manage/user/add',user,'POST');
 
-/* 
-json请求的接口函数
-*/
+// 获取分类列表
+export const reqCategory = (parentId) => ajax(`${adminUrl}category/catelist`,{parentId});
+// 添加分类
+export const reqAddCategory = (parentId,categoryName) => ajax(`${adminUrl}category/add`,{parentId,categoryName},'POST');
+// 更新分类
+export const reqUpdateCategory = ({categoryId,categoryName}) => ajax(`${adminUrl}category/update`,{categoryId,categoryName},'POST');
+// 删除分类
+export const reqDeleteCategory = (categoryId) => ajax(`${adminUrl}category/delete`,{categoryId},'POST');
+
+// 请求天气
 export const reqWeather = (city) => {
     let citynum = null;
     if(city in cityobj){

@@ -13,8 +13,11 @@ import './index.less'
 class Header extends Component{
     state = {
         curTime:new Date(),
-        dayPictureUrl:'',//天气图片
-        weather:'',//天气的文本
+        city:'',//所在区域
+        weatherMax:'',//天气的最高温
+        weatherMin:'',//天气的最低温
+        weatherNotice:'',//天气的提示
+        weatherInfo:'',//天气的信息
     }
     /* 
     第一次render()之后执行一次
@@ -50,9 +53,20 @@ class Header extends Component{
     getWeather = async () => {
         // 调用接口请求异步获取天气
         const result = await reqWeather('上海');
-        const {img2,weather} = result.data.weatherinfo;
+        let city = result.data.cityInfo.city;
+        let {low,high,type,notice} = result.data.data.forecast[0];
+        let templow = low.split(' ');
+        let temphigh = high.split(' ');
+        low = templow[templow.length-1];
+        high = temphigh[temphigh.length-1];
         // 更新状态
-        this.setState({dayPictureUrl:img2,weather});
+        this.setState({
+            city,//所在区域
+            high,//天气的最高温
+            low,//天气的最低温
+            notice,//天气的提示
+            type,//天气的信息
+        });
 
     }
     getTitle = () => {
@@ -80,7 +94,7 @@ class Header extends Component{
     
     
     render(){
-        const {curTime,dayPictureUrl,weather} = this.state;
+        const {curTime,city,low,high,type,notice} = this.state;
         const username = memoryUtils.user.username;
         const title = this.getTitle();
         return (
@@ -93,8 +107,10 @@ class Header extends Component{
                     <div className='header-bottom-left'>{title}</div>
                     <div className='header-bottom-right'>
                         <span>{curTime.toLocaleString()}</span>
-                        <img src={`http://www.weather.com.cn/m/i/weatherpic/29x20/${dayPictureUrl}`} alt="weather"/>
-                        <span>{weather}</span>
+                        <span style={{margin:'0 10px'}}>{type}</span>
+                        <span style={{color:'green'}}>{low}</span>~<span style={{color:'red'}}>{high}</span>
+                        <span style={{marginLeft:'10px'}}>{city}</span>
+                        <span style={{color:'#F44336',marginLeft:'10px'}}>{notice}</span>
                     </div>
                 </div>
             </div>

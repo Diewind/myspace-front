@@ -42,7 +42,6 @@ class Login extends Component {
         // const form = this.props.form;
         // // 获取表单项的输入数据
         // const values = form.getFieldsValue();
-        // console.log('111',values);
     }
 
     validatorPwd = (rule,value,callback) => {

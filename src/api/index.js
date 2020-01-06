@@ -9,8 +9,6 @@ const adminUrl = '/admin/';
 // 登录
 export const reqLogin = (username,password) => ajax(`${adminUrl}user/login`,{username,password},'POST');
 
-// 添加用户
-export const reqAddUser = (user) => ajax('/manage/user/add',user,'POST');
 
 // 获取分类列表
 export const reqCategory = (parentId) => ajax(`${adminUrl}category/catelist`,{parentId});
@@ -52,6 +50,15 @@ export const reqAddRole = (roleName) => ajax(`${adminUrl}role/add`,{roleName},'P
 export const reqUpdateRole = (role) => ajax(`${adminUrl}role/update`,role,'POST');
 // 删除
 export const reqDeleteRole = (id) => ajax(`${adminUrl}role/delete`,{id},'POST');
+
+// 获取所有用户的列表
+export const reqUsers = () => ajax(`${adminUrl}user/userlist`);
+// 添加
+export const reqAddUser = (user) => ajax(`${adminUrl}user/add`,user,'POST');
+// 更新
+export const reqUpdateUser = (user) => ajax(`${adminUrl}user/update`,user,'POST');
+// 删除
+export const reqDeleteUser = (id) => ajax(`${adminUrl}user/delete`,{id},'POST');
 
 // 请求天气
 export const reqWeather = (city) => {

@@ -11,6 +11,7 @@ import {
 import {PAGE_SIZE} from '../../utils/constants'
 import {reqRoles,reqAddRole,reqUpdateRole,reqDeleteRole} from '../../api'
 import memoryUtils from '../../utils/memoryUtils'
+import storageUtils from '../../utils/storageUtils'
 import AddForm from './addForm'
 import AuthForm from './authForm'
 /* 
@@ -86,11 +87,20 @@ class Role extends Component {
         // 请求更新
         const result = await reqUpdateRole(role);
         if(result.status === 0){
-            message.success('设置角色权限成功!');
-            this.setState({
-                showAuthStatus:false
-            });
-            this.getRoles();
+            // 如果更新的是自己角色的权限，强制退出
+            if(role.id === memoryUtils.user.role.id){
+                memoryUtils.user={};
+                storageUtils.removeUser();
+                this.props.history.replace('/login');
+                message.info('当前用户角色权限修改了，重新登录!');
+            }else{
+                message.success('设置角色权限成功!');
+                this.setState({
+                    showAuthStatus:false
+                });
+                this.getRoles();
+            }
+            
         }else{
             message.error(result.msg);
         }
@@ -157,7 +167,15 @@ class Role extends Component {
                     pagination={{
                         defaultPageSize:PAGE_SIZE
                     }}
-                    rowSelection={{type:'radio',selectedRowKeys:[role.id]}}
+                    rowSelection={{
+                        type:'radio',
+                        selectedRowKeys:[role.id],
+                        onSelect:(role)=>{// 选择某个radio的回调
+                            this.setState({
+                                role
+                            });
+                        }
+                    }}
                     onRow={this.onRow}
                 />
                 <Modal

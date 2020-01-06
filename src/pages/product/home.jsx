@@ -185,6 +185,7 @@ export default class Home extends Component {
                     rowKey={'id'}
                     loading={loading}
                     pagination={{
+                        current:this.pageNum,
                         defaultPageSize:PAGE_SIZE,
                         total,
                         showQuickJumper:true,

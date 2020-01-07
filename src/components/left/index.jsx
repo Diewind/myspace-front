@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import {Link,withRouter} from 'react-router-dom'
 import { Menu, Icon } from 'antd'
-import {connect} from 'react-redux'
 import menuList from '../../config/menu.config'
 import './index.less'
 import logo from '../../assets/images/logo.jpg'

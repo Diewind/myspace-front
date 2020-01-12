@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import {Modal} from 'antd'
+import { connect } from 'react-redux'
 import LinkButton from '../link-button/index'
 import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
@@ -118,4 +119,4 @@ class Header extends Component{
     }
 }
 
-export default withRouter(Header);
+export default (withRouter(Header));

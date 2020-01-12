@@ -11,7 +11,7 @@ import User from '../user/user'
 import Bar from '../charts/bar'
 import Line from '../charts/line'
 import Pie from '../charts/pie'
-
+import NotFound from '../notFound'
 import { Layout } from 'antd';
 const { Content, Footer, Sider } = Layout;
 
@@ -33,6 +33,7 @@ export default class Admin extends Component {
                     <Header></Header>
                     <Content style={{margin:20,backgroundColor:'#fff'}}>
                         <Switch>
+                            <Redirect exact from='/' to='/home' />
                             <Route path='/home' component={Home} />
                             <Route path='/category' component={Category} />
                             <Route path='/product' component={Product} />
@@ -41,7 +42,7 @@ export default class Admin extends Component {
                             <Route path='/charts/bar' component={Bar} />
                             <Route path='/charts/line' component={Line} />
                             <Route path='/charts/pie' component={Pie} />
-                            <Redirect to='/home' />
+                            <Route component={NotFound} />
                         </Switch>
                     </Content>
                     <Footer style={{textAlign:'center'}}>本系统由pilot开发，版权所有，盗版必究！</Footer>

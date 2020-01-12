@@ -6,7 +6,7 @@ import {
     SET_HEAD_TITLE
 } from './action-types'
 // 设置头部标题的同步action
-export const setHeaderTitle = (headTitle) => ({
+export const setHeadTitle = (headTitle) => ({
     type:SET_HEAD_TITLE,
     data:headTitle
 })

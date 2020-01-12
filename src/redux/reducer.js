@@ -6,7 +6,7 @@ import {
 } from './action-types'
 // 用来管理头部标题的reducer函数
 const initHeadTitle = '首页';
-function headTitle (state=initHeadTitle,action){
+function headTitle(state=initHeadTitle,action){
     switch (action.type) {
         case SET_HEAD_TITLE:
             return action.data;
@@ -16,7 +16,7 @@ function headTitle (state=initHeadTitle,action){
 }
 // 用来管理当前登录用户的reducer函数
 const initUser = storageUtils.getUser();
-function user (state=initUser,action) {
+function user(state=initUser,action){
     switch (action.type) {
         // case value:
             

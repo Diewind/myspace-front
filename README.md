@@ -1,23 +1,22 @@
 # react+antd后台管理系统
 
 ## 技术栈
-<u>前端：react+react-router+redux+axios等</u>
-<br />
-<u>后端：php(tp5)+mysql</u>
+**前端：react+react-router+redux+axios等**
+**后端：php(tp5)+mysql**
 
 ## 文件目录架构
 ```
-|——   src
-|———— api ajax相关
-|———— assets 公用资源
-|———— components 非路由组件
-|———— config 配置
-|———— pages 路由组件
-|———— redux 状态管理
-|———— utils 工具模块
-|——   App.js 应用根组件
-|——   index.js 入口js
-|——   mixapi后端文件夹
+|——   src/
+|———— api/        ajax相关
+|———— assets/     公用资源
+|———— components/ 非路由组件
+|———— config/     配置
+|———— pages/      路由组件
+|———— redux/      状态管理
+|———— utils/      工具模块
+|———— App.js      应用根组件
+|———— index.js    入口js
+|——   mixapi/     后端文件夹
 ```
 
 ## 如何运行

@@ -2,6 +2,7 @@
 
 ## 技术栈
 <u>前端：react+react-router+redux+axios等</u>
+<br />
 <u>后端：php(tp5)+mysql</u>
 
 ## 文件目录架构
@@ -21,10 +22,10 @@
 
 ## 如何运行
 ### 本地开发环境：
-1.前端
+1. 前端
     - npm install
     - npm start
-2.后端
+2. 后端
     - 打开wamp或phpstudy，这里以wamp为例
     - 找到安装路径的www目录(D:\wamp64\www)，把mixapi文件夹放进去
     - 因为本地配置跨域端口8888，,所以需要配置虚拟主机，找到httpd-vhost.conf文件，在结尾追加如下代码

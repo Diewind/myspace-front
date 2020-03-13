@@ -2,6 +2,7 @@
 
 ## 技术栈
 **前端：react+react-router+redux+axios等**
+<br/>
 **后端：php(tp5)+mysql**
 
 ## 文件目录架构

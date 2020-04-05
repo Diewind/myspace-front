@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {withRouter} from 'react-router-dom'
-import {Modal} from 'antd'
+import {Modal,Icon} from 'antd'
 import { connect } from 'react-redux'
 import LinkButton from '../link-button/index'
 import memoryUtils from '../../utils/memoryUtils'
@@ -92,15 +92,21 @@ class Header extends Component{
     componentWillUnmount() {
         clearInterval(this.timerID);
     }
+
+    toggle = () => {
+        this.props.toggle();
+    };
     
     
     render(){
         const {curTime,city,low,high,type,notice} = this.state;
+        let {collapsed} = this.props;
         const username = memoryUtils.user.username;
         const title = this.getTitle();
         return (
             <div className='header'>
                 <div className='header-top'>
+                    <span className='collapse' onClick={this.toggle}><Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} /></span>
                     <span>欢迎，{username}</span>
                     <LinkButton onClick={this.logout}>退出</LinkButton>
                 </div>

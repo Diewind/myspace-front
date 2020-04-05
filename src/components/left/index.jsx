@@ -3,7 +3,7 @@ import {Link,withRouter} from 'react-router-dom'
 import { Menu, Icon } from 'antd'
 import menuList from '../../config/menu.config'
 import './index.less'
-import logo from '../../assets/images/logo.jpg'
+import logo from '../../assets/images/logo.png'
 import memoryUtils from '../../utils/memoryUtils'
 
 const { SubMenu } = Menu;
@@ -45,7 +45,7 @@ class LeftNav extends Component{
     //     });
 
     // }
-
+    
     /* 
     判断当前登录用户对item是否有权限
     */
@@ -135,7 +135,7 @@ class LeftNav extends Component{
             <div className='left-nav'>
                 <Link to='/' className='left-nav-header'>
                     <img src={logo} alt="logo"/>
-                    <h1>mixapi后台</h1>
+                    {this.props.collapsed ? '' : <h1>MySpace后台</h1>}
                 </Link>
                 <Menu theme="dark" selectedKeys={[path]} defaultOpenKeys={[openKey]} mode="inline">
                     {/* <Menu.Item key="/home">
@@ -223,6 +223,7 @@ class LeftNav extends Component{
 
                     {this.menuNodes}
                 </Menu>
+                
             </div>
 
             </div>

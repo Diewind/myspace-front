@@ -54,6 +54,28 @@ const menuList = [
         }
     ]
 },
+{
+    title:'学习工具',
+    key:'/learnTools',
+    icon:'plus',
+    children:[//子菜单列表
+        {
+            title:'思维导图',
+            key:'/learnTools/mind',
+            icon:'retweet'
+        },
+        {
+            title:'流程图',
+            key:'/learnTools/flow',
+            icon:'retweet'
+        },
+        {
+            title:'拓扑图',
+            key:'/learnTools/koni',
+            icon:'retweet'
+        }
+    ]
+},
 ];
 
 

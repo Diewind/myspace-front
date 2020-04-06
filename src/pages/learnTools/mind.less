@@ -1,0 +1,73 @@
+.mindbox{
+    .mindbox-header{
+        padding-left: 15px;
+        .mindbox-header-title{
+            display: block;
+            margin-bottom: 0;
+            padding-right: 12px;
+            color: rgba(0,0,0,.85);
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 32px;
+            padding-top: 5px;
+        }
+        .mindbox-header-content{
+            padding: 8px 0;
+        }
+    }
+    .mindbox-body{
+        width: 100%;
+        min-height: 100%;
+        transition: .3s;
+        .ant-divider{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            color: rgba(0,0,0,.65);
+            font-size: 14px;
+            font-variant: tabular-nums;
+            line-height: 1.5715;
+            list-style: none;
+            font-feature-settings: "tnum","tnum";
+            background: #f0f0f0;
+        }
+        
+        .mindbox-body-hd{
+            padding: 8px;
+            background: #fafafa;
+            border: 1px solid #e6f7ff;
+            .toolbar{
+                display: flex;
+                align-items: center;
+                .command{
+                    display: inline-block;
+                    width: 27px;
+                    height: 27px;
+                    margin: 0 6px;
+                    padding-top: 6px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+                .ant-divider-vertical{
+                    position: relative;
+                    top: 3px;
+                    display: inline-block;
+                    width: 1px;
+                    height: 17px;
+                    margin: 0 8px;
+                    vertical-align: middle;
+                }
+            }
+        }
+        .mindbox-body-bd{
+            display: flex;
+            flex: 1 1;
+            flex-direction: column;
+            width: 100%;
+            height: calc(100vh - 250px);
+            background: #fafafa;
+            overflow: hidden;
+        }
+        
+    }
+}

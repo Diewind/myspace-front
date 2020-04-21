@@ -47,8 +47,8 @@ export default class Mind extends Component {
         return (
             <div className="mindbox">
                 <div className="mindbox-header">
-                    <div class="mindbox-header-title">脑图编辑器</div>
-                    <div class="mindbox-header-content">
+                    <div className="mindbox-header-title">脑图编辑器</div>
+                    <div className="mindbox-header-content">
                         脑图是表达发散性思维的有效图形思维工具 ，它简单却又很有效，是一种实用性的思维工具
                     </div>
                 </div>

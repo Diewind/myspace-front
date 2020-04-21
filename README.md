@@ -13,7 +13,7 @@
 |———— components/ 非路由组件
 |———— config/     配置
 |———— pages/      路由组件
-|———— redux/      状态管理
+|———— store/      存储数据的仓库
 |———— utils/      工具模块
 |———— App.js      应用根组件
 |———— index.js    入口js

@@ -7,11 +7,11 @@ import App from './App';
 import storageUtils from './utils/storageUtils';
 import memoryUtils from './utils/memoryUtils';
 import {Provider} from 'react-redux'
-import store from './store/store'
+import store from './store/stores/index'
 // 读取local中保存user，保存到内存中
 const user = storageUtils.getUser();
 memoryUtils.user = user;
-
+console.log('aaaaaa',store,store.getState());
 function render(){
     ReactDOM.render((
         <Provider store={store}>

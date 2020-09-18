@@ -108,7 +108,7 @@ class Header extends Component{
             <div className='header'>
                 <div className='header-top'>
                     <span className='collapse' onClick={this.toggle}><Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} /></span>
-                    <span>欢迎，{username}</span>
+                    <span>欢迎，{username || '游客'}</span>
                     <LinkButton onClick={this.logout}>退出</LinkButton>
                 </div>
                 <div className='header-bottom'>

@@ -28,11 +28,11 @@ function user(state=initUser,action){
 }
 
 /* 向外默认暴露的是合并产生的总的reducer函数 
-   管理的总的state的结构
-   {
-       headTitle:'首页',
-       user:{}
-   }
+管理的总的state的结构
+{
+    headTitle:'首页',
+    user:{}
+}
 */
 export default combineReducers({
     headTitle,

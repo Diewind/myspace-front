@@ -6,7 +6,7 @@ import menuList from '../../config/menu.config'
 import './index.less'
 import logo from '../../assets/images/logo.png'
 import memoryUtils from '../../utils/memoryUtils'
-import {setHeadTitle} from '../../store/actions'
+import {headerAction} from '../../store/actions/index'
 const { SubMenu } = Menu;
 /* 
 左侧导航组件
@@ -139,7 +139,7 @@ class LeftNav extends Component{
         return (
             <div>
             <div className='left-nav'>
-                <Link to='/' className='left-nav-header'>
+                <Link to='/' onClick={()=>this.props.setHeadTitle()} className='left-nav-header'>
                     <img src={logo} alt="logo"/>
                     {this.props.collapsed ? '' : <h1>MySpace后台</h1>}
                 </Link>
@@ -244,5 +244,5 @@ withRouter高阶组件
 */
 export default connect(
     state=>({}),
-    {setHeadTitle}
+    {setHeadTitle:headerAction.setHeadTitle}
 )(withRouter(LeftNav));

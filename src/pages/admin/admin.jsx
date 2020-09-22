@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {Redirect,Route,Switch} from 'react-router-dom'
+import Cookies from 'js-cookie'
 import memoryUtils from '../../utils/memoryUtils'
 import Left from '../../components/left'
 import Header from '../../components/header'
@@ -33,9 +34,9 @@ export default class Admin extends Component {
     render() {
         const user = memoryUtils.user;
         // 如果内存中没有存储user,表示当前没有登录
-        if(!user || !user.id){
+        if(!user || !user.id || Cookies.get('user')){
             // 自动跳转到登录
-            return <Redirect to='/login/' />;
+            // return <Redirect to='/login/' />;
         }
         return (
             <Layout style={{minHeight:'100%'}}>

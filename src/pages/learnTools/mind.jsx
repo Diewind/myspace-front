@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Row,Col,Icon,Tooltip} from 'antd'
+import {Row,Col,Icon,Tooltip,Button} from 'antd'
 import G6 from '@antv/g6';
 import G6Editor from '@antv/g6-editor';
 import './mind.less';
@@ -63,9 +63,26 @@ export default class Mind extends Component {
         editor.executeCommand('zoomOut');
     }
 
+    importFile = () => {
+
+    }
+
+    exportFile = () => {
+
+    }
+
+    save = () => {
+        
+    }
+
     render() {
         return (
             <div className="mindbox">
+                <Row className="mindbox-top" type="flex" justify="end">
+                    <Button onClick={this.importFile}>导入</Button>
+                    <Button onClick={this.exportFile}>导出</Button>
+                    <Button onClick={this.save} type='primary'>保存</Button>
+                </Row>
                 <div className="mindbox-header">
                     <div className="mindbox-header-title">脑图编辑器</div>
                     <div className="mindbox-header-content">

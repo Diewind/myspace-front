@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom'
 import { Form, Icon, Input, Button, message } from 'antd';
+import Cookies from 'js-cookie'
 import './login.less'
 import logo from '../../assets/images/logo.png'
 import {reqLogin} from '../../api/index'
@@ -25,6 +26,8 @@ class Login extends Component {
                     message.success('登录成功');
                     // 保存user
                     const user = result.data || {};
+                    // 保存在cookie中
+                    Cookies.set('user', user,{ expires: 7 });
                     memoryUtils.user = user;// 保存在内存中
                     storageUtils.saveUser(user);// 保存在local中
                     // 跳转到管理界面（不需要再回退到登录界面，所以用replace）

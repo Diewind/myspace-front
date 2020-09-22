@@ -54,8 +54,8 @@ class Header extends Component{
     getWeather = async () => {
         // 调用接口请求异步获取天气
         const result = await reqWeather('上海');
-        let city = result.data.cityInfo.city;
-        let {low,high,type,notice} = result.data.data.forecast[0];
+        let city = result.data && result.data.cityInfo && result.data.cityInfo.city || '';
+        let {low='',high='',type,notice} = result.data && result.data.data && result.data.data.forecast[0] || {};
         let templow = low.split(' ');
         let temphigh = high.split(' ');
         low = templow[templow.length-1];

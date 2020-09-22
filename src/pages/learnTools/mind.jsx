@@ -14,11 +14,28 @@ export default class Mind extends Component {
     componentDidMount() {
         const content = this.refs.content;
         const tool = this.refs.tool;
+        const detail = this.refs.detail;
+        const contextmenu = this.refs.contextmenu;
+        const minimap = this.refs.minimap;
         const editor = new G6Editor();
+        
+
+        const minimapBox = new G6Editor.Minimap({
+            container: minimap
+        });
         
         const toolBox = new G6Editor.Toolbar({
             container: tool
         });
+
+        const contextmenuBox = new G6Editor.Contextmenu({
+            container: detail
+        });
+
+        const detailBox = new G6Editor.Detailpannel({
+            container: detail
+        });
+        
 
         const contentBox = new G6Editor.Mind({
             defaultData: mindDatas,
@@ -29,6 +46,9 @@ export default class Mind extends Component {
         });
 
         editor.add(toolBox);
+        editor.add(minimapBox);
+        editor.add(contextmenuBox);
+        editor.add(detailBox);
         editor.add(contentBox);
 
         this.setState({
@@ -113,10 +133,17 @@ export default class Mind extends Component {
                     </div>
                     <div className="mindbox-body-bd">
                         <div className="mindbox-body-bd-content" ref='content'></div>
-                        {/* <Row className="mindbox-body-bd-sidebar" ref='sidebar'>
-                            <Row className="detail-panel"></Row>
-                            <Row className="minimap-panel"></Row>
-                        </Row> */}
+                        <div className="mindbox-body-bd-sidebar" ref='sidebar'>
+                            <div ref="contextmenu"></div>
+                            <div className="detail" ref='detail'>
+                                <div data-status="node-selected">节点属性栏</div>
+                                <div data-status="edge-selected">边属性栏</div>
+                                <div data-status="group-selected">群组属性栏</div>
+                                <div data-status="canvas-selected">画布属性栏</div>
+                                <div data-status="multi-selected">多选时属性栏</div>
+                            </div>
+                            <div className="minimap" ref='minimap'></div>
+                        </div>
                     </div>
                 </div>
             </div>

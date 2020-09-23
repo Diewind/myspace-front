@@ -45,7 +45,7 @@
             .toolbar{
                 display: flex;
                 align-items: center;
-                .command{
+                .toolicon{
                     display: inline-block;
                     width: 27px;
                     height: 27px;
@@ -53,10 +53,32 @@
                     padding-top: 6px;
                     text-align: center;
                     cursor: pointer;
+                    font-style: normal;
+                    line-height: 0;
+                    text-transform: none;
+                    vertical-align: -.125em;
+                    text-rendering: optimizeLegibility;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    svg{
+                        width: 1em;
+                        height: 1em;
+                        fill: currentcolor;
+                        color: rgba(0,0,0,.45);
+                    }
+                    &.disabled{
+                        color: rgba(0,0,0,.45);
+                        cursor: auto;
+                    }
+                    &:hover{
+                        border: 1px solid #d9d9d9;
+                    }
+                }
+                .command{
+                    box-sizing: border-box;
                 }
                 .ant-divider-vertical{
                     position: relative;
-                    top: 3px;
                     display: inline-block;
                     width: 1px;
                     height: 17px;
@@ -68,6 +90,7 @@
         .mindbox-body-bd{
             display: flex;
             flex-direction: row;
+            background: #fafafa;
             .mindbox-body-bd-content{
                 display: flex;
                 flex-direction: column;

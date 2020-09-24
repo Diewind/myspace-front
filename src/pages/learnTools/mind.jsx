@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import {Row,Col,Icon,Tooltip,Button,Form,Input} from 'antd'
+import {Row,Col,Icon,Tooltip,Button,Form,Input,Card} from 'antd'
+import {FOEM_ITEM_LAYOUT} from '../../utils/constants'
 import G6 from '@antv/g6';
 import G6Editor from '@antv/g6-editor';
 import './mind.less';
@@ -9,20 +10,24 @@ class Mind extends Component {
     constructor(props){
         super(props);
         this.state = {
-            zoom:0.2
+            zoom:0.2,
+            nodeTit:'canvas',
+            nodeName:''
         }
     }
     componentDidMount() {
         const content = this.refs.content;
         const tool = this.refs.tool;
-        const detail = this.refs.detail;
-        const contextmenu = this.refs.contextmenu;
+        // const detail = this.refs.detail;
+        // const contextmenu = this.refs.contextmenu;
         const minimap = this.refs.minimap;
         const editor = new G6Editor();
         const {setFieldsValue} = this.props.form;
 
         const minimapBox = new G6Editor.Minimap({
-            container: minimap
+            container: minimap,
+            viewportBackStyle:'#fff',
+            viewportWindowStyle:'#fff'
         });
 
         
@@ -31,13 +36,13 @@ class Mind extends Component {
             container: tool
         });
 
-        const contextmenuBox = new G6Editor.Contextmenu({
-            container: contextmenu
-        });
+        // const contextmenuBox = new G6Editor.Contextmenu({
+        //     container: contextmenu
+        // });
 
-        const detailBox = new G6Editor.Detailpannel({
-            container: detail
-        });
+        // const detailBox = new G6Editor.Detailpannel({
+        //     container: detail
+        // });
         
 
         const contentBox = new G6Editor.Mind({
@@ -50,17 +55,22 @@ class Mind extends Component {
 
         editor.add(toolBox);
         editor.add(minimapBox);
-        editor.add(contextmenuBox);
-        editor.add(detailBox);
+        // editor.add(contextmenuBox);
+        // editor.add(detailBox);
         editor.add(contentBox);
 
         const curPage = editor.getCurrentPage();
         curPage.on('click',(ev)=>{
             console.log('ev',ev);
-            const title = ev.shape._attrs.text || '';
+            let title = ev?.item?.model.label || '';
+            let nodeTit = ev?.item?.type || 'canvas';
             setFieldsValue({
-                'LabelName':title
+                'LabelName':title,
+                'nodeName':title
             });
+            this.setState({
+                nodeTit
+            })
         })
         console.log('page',curPage);
 
@@ -186,20 +196,31 @@ class Mind extends Component {
                     <div className="mindbox-body-bd">
                         <div className="mindbox-body-bd-content" ref='content'></div>
                         <div className="mindbox-body-bd-sidebar" ref='sidebar'>
-                            <div className="contextmenu" ref="contextmenu"></div>
-                            <div className="detail" ref='detail'>
-                                <div data-status="node-selected">
-                                    <Form.Item label="Label">
-                                        {getFieldDecorator('LabelName', {
-                                        })(<Input />)}
-                                    </Form.Item>
-                                </div>
-                                <div data-status="edge-selected">边属性栏</div>
-                                <div data-status="group-selected">群组属性栏</div>
-                                <div data-status="canvas-selected">画布属性栏</div>
-                                <div data-status="multi-selected">多选时属性栏</div>
+                            <div className="node-panel">
+                                <Card size='small' title={this.state.nodeTit}>
+                                    {this.state.nodeTit === 'node' && <Form layout='horizontal'>
+                                        <Form.Item label="Label" {...FOEM_ITEM_LAYOUT}>
+                                            {getFieldDecorator('LabelName', {
+                                                initialValue:this.state.nodeName
+                                            })(<Input />)}
+                                        </Form.Item>
+                                    </Form>}
+                                    {/* <div className="contextmenu" ref="contextmenu"></div>
+                                    <div className="detail" ref='detail'>
+                                        <div data-status="node-selected">
+                                        xx属性栏
+                                        </div>
+                                        <div data-status="edge-selected">边属性栏</div>
+                                        <div data-status="group-selected">群组属性栏</div>
+                                        <div data-status="canvas-selected">画布属性栏</div>
+                                        <div data-status="multi-selected">多选时属性栏</div>
+                                    </div> */}
+                                </Card>
                             </div>
-                            <div className="minimap" ref='minimap'></div>
+                            
+                            <Card size='small' title='Minimap'>
+                                <div className="minimap" ref='minimap'></div>
+                            </Card>
                         </div>
                     </div>
                 </div>

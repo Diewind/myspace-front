@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Row,Col,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown} from 'antd'
 import {FOEM_ITEM_LAYOUT} from '../../utils/constants'
-import G6 from '@antv/g6';
+// import G6 from '@antv/g6';
 import G6Editor from '@antv/g6-editor';
 import './mind.less';
 import mindDatas from './mindDatas'
@@ -21,6 +21,11 @@ class Mind extends Component {
                             "label": "数字迷",
                             "side": "right",
                             "id": "18bcb5ce",
+                            },
+                            {
+                                "label": "语文王",
+                                "side": "left",
+                                "id": "18rcb5ce",
                             }
                         ]
                     }
@@ -45,12 +50,15 @@ class Mind extends Component {
         const minimap = this.refs.minimap;
         const editor = new G6Editor();
         const {setFieldsValue} = this.props.form;
+        const {data} = this.state;
 
         const minimapBox = new G6Editor.Minimap({
             container: minimap,
             viewportBackStyle:'#fff',
-            viewportWindowStyle:'#fff'
+            viewportWindowStyle:'#fff',
+            fitView:true
         });
+        console.log('aaaaa',minimapBox,editor);
         const toolBox = new G6Editor.Toolbar({
             container: tool
         });
@@ -61,7 +69,7 @@ class Mind extends Component {
             container: detail
         });
         const contentBox = new G6Editor.Mind({
-            defaultData: mindDatas,
+            defaultData: data,
             graph: {
                 container: content,
                 height: window.innerHeight - 38
@@ -75,6 +83,7 @@ class Mind extends Component {
         editor.add(contentBox);
         this.editor = editor;
         const curPage = editor.getCurrentPage();
+    
         curPage.on('click',(ev)=>{
             console.log('click',ev);
             let title = ev?.item?.model.label || '';
@@ -86,6 +95,8 @@ class Mind extends Component {
                 'labelName':title
             });
         });
+
+        curPage.clearSelected();
     }
 
     handleBlur = (e) => {
@@ -110,10 +121,15 @@ class Mind extends Component {
     }
 
     importFile = () => {
-        let {data} = this.state;
-        let editor = this.editor;
-        let curPage = editor.getCurrentPage();
-        curPage.read(data);
+        let data = mindDatas;
+        
+        this.setState({
+            data
+        },()=>{
+            let editor = this.editor;
+            let curPage = editor.getCurrentPage();
+            curPage.read(data);
+        });
     }
 
     exportFileClick = (e) => {
@@ -242,7 +258,7 @@ class Mind extends Component {
                                     <Form.Item label="Label" {...FOEM_ITEM_LAYOUT}>
                                         {getFieldDecorator('labelName', {
                                             
-                                        })(<Input onChange={this.handleChange} onBlur={this.handleBlur} />)}
+                                        })(<Input autoComplete='off' onChange={this.handleChange} onBlur={this.handleBlur} />)}
                                     </Form.Item>
                                 </Form>}
                                 

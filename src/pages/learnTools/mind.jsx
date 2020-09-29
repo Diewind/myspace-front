@@ -51,12 +51,12 @@ class Mind extends Component {
         const editor = new G6Editor();
         const {setFieldsValue} = this.props.form;
         const {data} = this.state;
-
-        const minimapBox = new G6Editor.Minimap({
+        let minimapBox = new G6Editor.Minimap({
             container: minimap,
             viewportBackStyle:'#fff',
             viewportWindowStyle:'#fff',
-            fitView:true
+            fitView:true,
+            width:197
         });
         console.log('aaaaa',minimapBox,editor);
         const toolBox = new G6Editor.Toolbar({
@@ -121,13 +121,12 @@ class Mind extends Component {
     }
 
     importFile = () => {
-        let data = mindDatas;
-        
+        let ndata = Object.assign({},{...mindDatas});
         this.setState({
-            data
+            data:ndata
         },()=>{
-            let editor = this.editor;
-            let curPage = editor.getCurrentPage();
+            let curPage = this.editor.getCurrentPage();
+            let {data} = this.state;
             curPage.read(data);
         });
     }

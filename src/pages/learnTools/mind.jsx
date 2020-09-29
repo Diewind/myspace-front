@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Row,Col,Icon,Tooltip,Button,Form,Input,Card} from 'antd'
+import {Row,Col,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown} from 'antd'
 import {FOEM_ITEM_LAYOUT} from '../../utils/constants'
 import G6 from '@antv/g6';
 import G6Editor from '@antv/g6-editor';
@@ -11,7 +11,21 @@ class Mind extends Component {
     constructor(props){
         super(props);
         this.state = {
-            nodeTit:'canvas'
+            nodeTit:'canvas',
+            data:{
+                "roots": [
+                    {
+                        "label": "思维导图",
+                        "children": [
+                            {
+                            "label": "数字迷",
+                            "side": "right",
+                            "id": "18bcb5ce",
+                            }
+                        ]
+                    }
+                ]
+            }//数据
         }
     }
 
@@ -59,7 +73,7 @@ class Mind extends Component {
         editor.add(contextmenuBox);
         editor.add(detailBox);
         editor.add(contentBox);
-
+        this.editor = editor;
         const curPage = editor.getCurrentPage();
         curPage.on('click',(ev)=>{
             console.log('click',ev);
@@ -76,31 +90,63 @@ class Mind extends Component {
 
     handleBlur = (e) => {
         console.log('eeee2',e,e.value);
+        const editor = this.editor;
+        const items = editor.getCurrentPage();
+        const curSel = items.getSelected();
+        let {data} = this.state;
+        items.read(data);
+        items.setSelected(curSel[0]['model']['id'], true);
     }
 
     handleChange = (e) => {
-        console.log('eeee',e);
+        const editor = this.editor;
+        const items = editor.getCurrentPage();
+        
+        const curSel = items.getSelected();
+        console.log('eeee',e,e.target.value,curSel,items);
+        curSel[0]['model']['label'] = e.target.value;
+        
+        
     }
 
     importFile = () => {
-
+        let {data} = this.state;
+        let editor = this.editor;
+        let curPage = editor.getCurrentPage();
+        curPage.read(data);
     }
 
-    exportFile = () => {
-
+    exportFileClick = (e) => {
+        const editor = this.editor;
+        const curPage = editor.getCurrentPage();
+        const data = curPage.save();
+        console.log('ddd',data,e.key);
     }
 
     save = () => {
-        
+        const editor = this.editor;
+        const curPage = editor.getCurrentPage();
+        const data = curPage.save();
     }
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const menu = (
+            <Menu onClick={this.exportFileClick}>
+                <Menu.Item key="png">.PNG</Menu.Item>
+                <Menu.Item key="pdf">.PDF</Menu.Item>
+                <Menu.Item key="mmap">.MMAP</Menu.Item>
+            </Menu>
+        );
         return (
             <div className="mindbox">
                 <Row className="mindbox-top" type="flex" justify="end">
                     <Button onClick={this.importFile}>导入</Button>
-                    <Button onClick={this.exportFile}>导出</Button>
+                    <Dropdown overlay={menu}>
+                        <Button>
+                            导出 <Icon type="down" />
+                        </Button>
+                    </Dropdown>
                     <Button onClick={this.save} type='primary'>保存</Button>
                 </Row>
                 <div className="mindbox-header">

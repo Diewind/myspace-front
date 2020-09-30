@@ -80,18 +80,37 @@
             display: flex;
             flex-direction: row;
             background: #fafafa;
+            
             .mindbox-body-bd-content{
                 display: flex;
                 flex-direction: column;
                 width: 80%;
                 overflow: hidden;
                 position: relative;
+                
             }
             .mindbox-body-bd-sidebar{
                 display: flex;
                 flex-direction: column;
                 width: 20%;
                 position: relative;
+                &:first-child{
+                    border-right: 1px solid #e6f7ff;
+                }
+                &:last-child{
+                    border-left: 1px solid #e6f7ff;
+                }
+                &.mindbox-body-bd-flow-sidebar-left{
+                    .ant-card-body{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        &>div{
+                            margin-bottom: 16px;
+                            cursor: pointer;
+                        }
+                    }
+                }
                 .ant-card{
                     .ant-card-head{
                         text-transform:capitalize;
@@ -113,6 +132,7 @@
                     overflow: hidden;
                 }
             }
+            
         }
         .mindbox-body-contextmenu{
             display: none;

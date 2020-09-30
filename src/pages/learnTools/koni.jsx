@@ -1,17 +1,36 @@
 import React, { Component } from 'react'
-import {Row,Col,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown} from 'antd'
+import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown} from 'antd'
 import {FOEM_ITEM_LAYOUT} from '../../utils/constants'
-import G6 from '@antv/g6';
 import G6Editor from '@antv/g6-editor';
 import './mind.less';
-import mindDatas from './mindDatas'
+
+const { TextArea } = Input;
 
 class Koni extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            nodeTit:'canvas'
+            nodeType:'canvas',// 节点类型
+            data:{
+                "roots": [
+                    {
+                        "label": "思维导图",
+                        "children": [
+                            {
+                            "label": "数字迷",
+                            "side": "right",
+                            "id": "18bcb5ce",
+                            },
+                            {
+                                "label": "语文王",
+                                "side": "left",
+                                "id": "18rcb5ce",
+                            }
+                        ]
+                    }
+                ]
+            }
         }
     }
 
@@ -24,21 +43,24 @@ class Koni extends Component {
      */
     init = () => {
         
-        const content = this.refs.content;
         const tool = this.refs.tool;
-        const detail = this.refs.detail;
+        const content = this.refs.content;
         const contextmenu = this.refs.contextmenu;
+        const detail = this.refs.detail;
         const minimap = this.refs.minimap;
         const editor = new G6Editor();
         const {setFieldsValue} = this.props.form;
-
-        const minimapBox = new G6Editor.Minimap({
-            container: minimap,
-            viewportBackStyle:'#fff',
-            viewportWindowStyle:'#fff'
-        });
+        const {data} = this.state;
+        
         const toolBox = new G6Editor.Toolbar({
             container: tool
+        });
+        const contentBox = new G6Editor.Mind({
+            defaultData: data,
+            graph: {
+                container: content,
+                height: window.innerHeight - 280
+            }
         });
         const contextmenuBox = new G6Editor.Contextmenu({
             container: contextmenu
@@ -46,100 +68,129 @@ class Koni extends Component {
         const detailBox = new G6Editor.Detailpannel({
             container: detail
         });
-        const contentBox = new G6Editor.Mind({
-            defaultData: mindDatas,
-            graph: {
-                container: content,
-                height: window.innerHeight - 38
-            }
+        const minimapBox = new G6Editor.Minimap({
+            container: minimap,
+            viewportBackStyle:'#fff',
+            viewportWindowStyle:'#fff',
+            fitView:true,
+            width:197
         });
-
+        
         editor.add(toolBox);
-        editor.add(minimapBox);
+        editor.add(contentBox);
         editor.add(contextmenuBox);
         editor.add(detailBox);
-        editor.add(contentBox);
+        editor.add(minimapBox);
+
         this.editor = editor;
-        const curPage = editor.getCurrentPage();
-        curPage.on('click',(ev)=>{
-            console.log('click',ev);
-            let title = ev?.item?.model.label || '';
-            let nodeTit = ev?.item?.type || 'canvas';
+        const currentPage = editor.getCurrentPage();
+        // 清空默认选中
+        currentPage.clearSelected();
+        currentPage.on('click',(ev)=>{
+            let nodeName = ev?.item?.model.label || '';
+            let nodeType = ev?.item?.type || 'canvas';
             this.setState({
-                nodeTit
+                nodeType
             });
             setFieldsValue({
-                'labelName':title
+                'labelName':nodeName
             });
         });
+
     }
 
-    handleBlur = (e) => {
-        console.log('eeee2',e,e.value);
+    // 设置数据
+    handleBlur = () => {
+        const currentPage = this.editor.getCurrentPage();
+        const curSelect = currentPage.getSelected();
+        let {data} = this.state;
+        currentPage.read(data);
+        currentPage.setSelected(curSelect[0]['model']['id'], true);
     }
 
     handleChange = (e) => {
-        console.log('eeee',e);
+        const currentPage = this.editor.getCurrentPage();
+        const curSelect = currentPage.getSelected();
+        curSelect[0]['model']['label'] = e.target.value;
     }
 
+    // 导入
     importFile = () => {
-        let mockData = {
-            "roots": [
-                {
-                    "label": "思维导图",
-                    "children": [
-                        {
-                        "label": "数字迷",
-                        "side": "right",
-                        "id": "18bcb5ce",
-                        }
-                    ]
-                }
-            ]
-        };
-        const editor = this.editor;
-        const curPage = editor.getCurrentPage();
-        curPage.read(mockData);
+        // const ndata = mindDatas;
+        // this.setState({
+        //     data:ndata
+        // },()=>{
+        //     const currentPage = this.editor.getCurrentPage();
+        //     const {data} = this.state;
+        //     currentPage.read(data);
+        // });
     }
 
+    // 导出
     exportFileClick = (e) => {
-        const editor = this.editor;
-        const curPage = editor.getCurrentPage();
-        const data = curPage.save();
-        console.log('ddd',data,e.key);
+        const currentPage = this.editor.getCurrentPage();
+        const data = currentPage.save();
     }
 
     save = () => {
-        const editor = this.editor;
-        const curPage = editor.getCurrentPage();
-        const data = curPage.save();
+        const currentPage = this.editor.getCurrentPage();
+        const data = currentPage.save();
     }
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { nodeType }= this.state;
+        const formItemLayout = {
+            labelCol: {
+                xs: { span: 2 },
+                sm: { span: 2 },
+            },
+            wrapperCol: {
+                xs: { span: 21 },
+                sm: { span: 21 },
+            },
+        };
         const menu = (
             <Menu onClick={this.exportFileClick}>
-                <Menu.Item key="png">PNG</Menu.Item>
-                <Menu.Item key="pdf">PDF</Menu.Item>
-                <Menu.Item key="mmap">MMAP</Menu.Item>
+                <Menu.Item key="png">.PNG</Menu.Item>
+                <Menu.Item key="pdf">.PDF</Menu.Item>
+                <Menu.Item key="mmap">.MMAP</Menu.Item>
             </Menu>
         );
         return (
             <div className="mindbox">
-                <Row className="mindbox-top" type="flex" justify="end">
-                    <Button onClick={this.importFile}>导入</Button>
-                    <Dropdown overlay={menu}>
-                        <Button>
-                            导出 <Icon type="down" />
-                        </Button>
-                    </Dropdown>
-                    <Button onClick={this.save} type='primary'>保存</Button>
-                </Row>
                 <div className="mindbox-header">
-                    <div className="mindbox-header-title">拓扑编辑器</div>
-                    <div className="mindbox-header-content">
-                        拓扑结构图是指由网络节点设备和通信介质构成的网络结构图
-                    </div>
+                    <Row className="mindbox-top" type="flex" justify="end">
+                        <Button onClick={this.importFile}>导入</Button>
+                        <Dropdown overlay={menu}>
+                            <Button>
+                                导出 <Icon type="down" />
+                            </Button>
+                        </Dropdown>
+                        <Button onClick={this.save} type='primary'>保存</Button>
+                    </Row>
+                    <Form {...formItemLayout}>
+                        <Form.Item label="标题">
+                            {getFieldDecorator('title', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: '请输入标题',
+                                    },
+                                ],
+                            })(<Input autoComplete='off' placeholder='脑图编辑器' />)}
+                        </Form.Item>
+                        <Form.Item label="描述">
+                            {getFieldDecorator('desc', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: '请输入描述',
+                                    },
+                                ],
+                            })(<TextArea autoComplete='off' rows={4} placeholder='脑图是表达发散性思维的有效图形思维工具 ，它简单却又很有效，是一种实用性的思维工具' />)}
+                        </Form.Item>
+                    </Form>
                 </div>
                 <div className="mindbox-body">
                     <div className='mindbox-body-hd'>
@@ -173,7 +224,6 @@ class Koni extends Component {
                                     </span>
                                 </Tooltip>
                             </div>
-
                             <div className="command" data-command="autoZoom">
                                 <Tooltip title='Fit Map' placement="bottom">
                                     <span className='toolicon' role='img'>
@@ -191,14 +241,14 @@ class Koni extends Component {
                             <div className="ant-divider ant-divider-vertical" role="separator"></div>
                             <div className="command" data-command="append">
                                 <Tooltip title='Topic' placement="bottom">
-                                    <span className='toolicon ' role='img'>
+                                    <span className='toolicon' role='img'>
                                         <svg id="icon-append" viewBox="0 0 1024 1024"><path d="M149.454 116.492h65.915v65.916h-65.915v-65.916z m131.83 0h65.924v65.916h-65.923v-65.916z m-131.83 131.839h65.915v65.915h-65.915v-65.915z m263.669-131.839h65.915v65.916h-65.915v-65.916z m263.67 0h65.922v65.916h-65.923v-65.916z m0 263.67h65.922v65.923h-65.923V380.16z m-131.831-263.67h65.915v65.916h-65.915v-65.916z m-263.677 263.67h65.923v65.923h-65.923V380.16zM808.63 248.33h65.915v65.915h-65.915v-65.915zM149.454 380.16h65.915v65.924h-65.915V380.16zM808.63 116.492h65.915v65.916h-65.915v-65.916z m0 263.67h65.915v65.923h-65.915V380.16z m-395.508 0h65.915v65.923h-65.915V380.16z m131.839 0h65.915v65.923h-65.915V380.16z m0 65.923h-65.924v131.83H149.454v329.593h725.092V577.915H544.962v-131.83zM808.63 841.592H215.369V643.84h593.262v197.753z"></path></svg>
                                     </span>
                                 </Tooltip>
                             </div>
                             <div className="command" data-command="appendChild">
                                 <Tooltip title='Subtopic' placement="bottom">
-                                    <span className='toolicon ' role='img'>
+                                    <span className='toolicon' role='img'>
                                         <svg id="icon-append-child" viewBox="0 0 1024 1024"><path d="M256 128h64v64h-64v-64z m128 0h64v64h-64v-64z m0 256h64v64h-64v-64z m128 0h64v64h-64v-64z m0-256h64v64h-64v-64z m0 128h64v64h-64v-64zM128 128h64v64h-64v-64zM0 128h64v64H0v-64z m0 128h64v64H0v-64z m256 128h64v64h-64v-64z m-128 0h64v64h-64v-64zM0 384h64v64H0v-64z m448 128v128H192V512h-64v192h320v128h576V512H448z m512 256H512V576h448v192z"></path></svg>
                                     </span>
                                 </Tooltip>
@@ -206,14 +256,14 @@ class Koni extends Component {
                             <div className="ant-divider ant-divider-vertical" role="separator"></div>
                             <div className="command" data-command="collapse">
                                 <Tooltip title='Fold' placement="bottom">
-                                    <span className='toolicon ' role='img'>
+                                    <span className='toolicon' role='img'>
                                         <svg id="icon-collapse" viewBox="0 0 1024 1024"><path d="M704 576H576v128H0V384h576v128h128V256h320v64H768v192h256v64H768v192h256v64H704V576zM256 160v96L64 128 256 0v96h346v64H256z"></path></svg>
                                     </span>
                                 </Tooltip>
                             </div>
                             <div className="command" data-command="expand">
                                 <Tooltip title='Unfold' placement="bottom">
-                                    <span className='toolicon ' role='img'>
+                                    <span className='toolicon' role='img'>
                                         <svg id="icon-expand" viewBox="0 0 1024 1024"><path d="M448 160H102V96h346V0l192 128-192 128v-96z m256 416H576v128H0V384h576v128h128V256h320v64H768v192h256v64H768v192h256v64H704V576z"></path></svg>
                                     </span>
                                 </Tooltip>
@@ -223,17 +273,15 @@ class Koni extends Component {
                     <div className="mindbox-body-bd">
                         <div className="mindbox-body-bd-content" ref='content'></div>
                         <div className="mindbox-body-bd-sidebar" ref='sidebar'>
-                            <Card size='small' type="inner" title={this.state.nodeTit}>
-                                {this.state.nodeTit === 'node' && <Form layout='horizontal'>
+                            <Card size='small' type="inner" title={nodeType}>
+                                {nodeType === 'node' && <Form layout='horizontal'>
                                     <Form.Item label="Label" {...FOEM_ITEM_LAYOUT}>
                                         {getFieldDecorator('labelName', {
                                             
-                                        })(<Input onChange={this.handleChange} onBlur={this.handleBlur} />)}
+                                        })(<Input autoComplete='off' onChange={this.handleChange} onBlur={this.handleBlur} />)}
                                     </Form.Item>
                                 </Form>}
-                                
                             </Card>
-                            
                             <Card size='small' type="inner" title='minimap'>
                                 <div className="minimap" ref='minimap'></div>
                             </Card>
@@ -283,8 +331,6 @@ class Koni extends Component {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div data-status="edge-selected">边属性栏</div>
-                            <div data-status="group-selected">群组属性栏</div> */}
                             <div class="menu" data-status="canvas-selected">
                                 <div class="command disable" data-command="undo">
                                     <div class="context-menu-index-item">
@@ -303,7 +349,6 @@ class Koni extends Component {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div data-status="multi-selected">多选时属性栏</div> */}
                         </div>
                     </div>
                 </div>

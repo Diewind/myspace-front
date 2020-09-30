@@ -315,7 +315,7 @@ class Mind extends Component {
                                         <span>Fold</span>
                                     </div>
                                 </div>
-                                <div class="command disable" data-command="expand">
+                                <div class="command" data-command="expand">
                                     <div class="context-menu-index-item">
                                         <span role="img" class="anticon">
                                             <svg id="icon-expand" viewBox="0 0 1024 1024"><path d="M448 160H102V96h346V0l192 128-192 128v-96z m256 416H576v128H0V384h576v128h128V256h320v64H768v192h256v64H768v192h256v64H704V576z"></path></svg>
@@ -333,7 +333,7 @@ class Mind extends Component {
                                 </div>
                             </div>
                             <div class="menu" data-status="canvas-selected">
-                                <div class="command disable" data-command="undo">
+                                <div class="command" data-command="undo">
                                     <div class="context-menu-index-item">
                                         <span role="img" class="anticon">
                                             <svg id="icon-undo" viewBox="0 0 1024 1024"><path d="M143.14 449.19q69.07-89.09 170.67-140.64Q415.41 257 537.52 256q183.18 4 315.81 114.11T1024 654.39q-58.06-107.11-161.66-170.17-103.6-63.06-232.73-65.06-107.1 1-196.69 45.54-89.58 44.55-152.65 121.62L407.4 713.45q7 7 7 17.01 0 10.01-7 17.02t-17.01 7.01H32.04q-14.01 0-23.02-9.01T0.01 722.46V364.11q0-10.01 7-17.02t17.02-7.01q10.01 0 17.02 7.01l102.1 102.1z"></path></svg>
@@ -341,7 +341,7 @@ class Mind extends Component {
                                         <span>Undo</span>
                                     </div>
                                 </div>
-                                <div class="command disable" data-command="redo">
+                                <div class="command" data-command="redo">
                                     <div class="context-menu-index-item">
                                         <span role="img" class="anticon">
                                             <svg id="icon-redo" viewBox="0 0 1024 1024"><path d="M999.98 340.08q-10.01 0-17.02 7.01l-102.1 102.1q-69.07-89.09-170.67-140.64Q608.59 257 487.48 256q-184.18 4-316.81 114.11T0 654.39q58.06-107.11 161.66-170.17 103.6-63.06 232.73-65.06 107.1 1 197.19 45.54 90.09 44.55 152.15 121.62L616.6 713.45q-7 7-7 17.01 0 10.01 7 17.02t17.01 7.01h358.35q14.01 0 23.02-9.01t9.01-23.02V364.11q0-10.01-7-17.02t-17.01-7.01z"></path></svg>

@@ -274,7 +274,7 @@ class Mind extends Component {
                     <div className="mindbox-body-bd">
                         <div className="mindbox-body-bd-content" ref='content'></div>
                         <div className="mindbox-body-bd-sidebar" ref='sidebar'>
-                            <Card size='small' type="inner" title={nodeType}>
+                            <Card className='mindbox-body-bd-sidebar-nodeinfo' size='small' type="inner" title={nodeType}>
                                 {nodeType === 'node' && <Form layout='horizontal'>
                                     <Form.Item label="Label" {...FOEM_ITEM_LAYOUT}>
                                         {getFieldDecorator('labelName', {

@@ -84,7 +84,8 @@
             .mindbox-body-bd-content{
                 display: flex;
                 flex-direction: column;
-                width: 80%;
+                // width: 80%;
+                flex: auto;
                 overflow: hidden;
                 position: relative;
                 
@@ -92,7 +93,7 @@
             .mindbox-body-bd-sidebar{
                 display: flex;
                 flex-direction: column;
-                width: 20%;
+                // width: 20%;
                 position: relative;
                 &:first-child{
                     border-right: 1px solid #e6f7ff;
@@ -101,13 +102,19 @@
                     border-left: 1px solid #e6f7ff;
                 }
                 &.mindbox-body-bd-flow-sidebar-left{
-                    .ant-card-body{
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        &>div{
-                            margin-bottom: 16px;
-                            cursor: pointer;
+                    flex: 1 1;
+                    
+                    .ant-card{
+                        height: 100%;
+                        .ant-card-body{
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            width: 275px;
+                            &>div{
+                                margin-bottom: 16px;
+                                cursor: pointer;
+                            }
                         }
                     }
                 }
@@ -118,7 +125,11 @@
                     &.ant-card-bordered{
                         border: none;
                     }
+                    &.mindbox-body-bd-sidebar-nodeinfo{
+                        flex: 1 1;
+                    }
                 }
+                
                 .detail{
                     width: 100%;
                     height: 240px;

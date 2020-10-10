@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown} from 'antd'
+import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown,Select} from 'antd'
 import {FOEM_ITEM_LAYOUT} from '../../utils/constants'
 import G6Editor from '@antv/g6-editor';
 import './mind.less';
 import flowDatas from './flowDatas'
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 class Flow extends Component {
 
@@ -75,16 +76,57 @@ class Flow extends Component {
         // 清空默认选中
         currentPage.clearSelected();
         currentPage.on('click',(ev)=>{
+            console.log('abccc',ev);
             let nodeName = ev?.item?.model.label || '';
             let nodeType = ev?.item?.type || 'canvas';
+            let nodeShape = ev?.item?.shapeObj.type || '';
             this.setState({
                 nodeType
             });
             setFieldsValue({
-                'labelName':nodeName
+                'labelName': (nodeType === 'edge') ? 'Label' : nodeName,
+                'labelShape':nodeShape
             });
         });
+        currentPage.on('beforechange', ev=>{
+            console.log('beforechange',ev);
+        })
 
+        currentPage.on('afterchange', ev=>{
+            console.log('afterchange',ev);
+        })
+
+        currentPage.on('beforeitemselected', ev=>{
+            console.log('beforeitemselected',ev);
+        }); // 选中前
+        currentPage.on('afteritemselected', ev=>{
+            console.log('afteritemselected',ev);
+            let nodeName = ev?.item?.model.label || '';
+            let nodeType = ev?.item?.type || 'canvas';
+            let newMode = ev?.item?.model;
+            let arr = this.state.data.nodes || [];
+            let isRepeat = arr.some(val=> val.id === newMode.id);
+            if(!isRepeat && nodeType !== 'edge'){
+                arr.push(newMode);
+            }
+            this.setState({
+                nodeType,
+                data:{
+                    nodes:[...arr],
+                    edges:[...this.state.data.edges]
+                }
+            });
+            setFieldsValue({
+                'labelName':nodeName
+            });
+        }); // 选中后
+        currentPage.on('beforeitemunselected', ev=>{
+            console.log('beforeitemunselected',ev);
+        }); // 取消选中前
+        currentPage.on('afteritemunselected', ev=>{
+            console.log('afteritemunselected',ev);
+        }); // 取消选中后
+        currentPage.read(data);
     }
 
     // 设置数据
@@ -92,6 +134,7 @@ class Flow extends Component {
         const currentPage = this.editor.getCurrentPage();
         const curSelect = currentPage.getSelected();
         let {data} = this.state;
+        console.log('aaab',curSelect,data);
         currentPage.read(data);
         currentPage.setSelected(curSelect[0]['model']['id'], true);
     }
@@ -99,7 +142,17 @@ class Flow extends Component {
     handleChange = (e) => {
         const currentPage = this.editor.getCurrentPage();
         const curSelect = currentPage.getSelected();
+        console.log('aaaa',curSelect);
         curSelect[0]['model']['label'] = e.target.value;
+    }
+
+    handleEdgeChange = (e) => {
+        console.log('eee',e);
+        const currentPage = this.editor.getCurrentPage();
+        const curSelect = currentPage.getSelected();
+        console.log('aaaabbb',curSelect);
+        curSelect[0]['shapeObj']['type'] = e;
+        this.handleBlur();
     }
 
     // 导入
@@ -307,11 +360,24 @@ class Flow extends Component {
                         <div className="mindbox-body-bd-content" ref='content'></div>
                         <div className="mindbox-body-bd-sidebar" ref='sidebar'>
                             <Card className='mindbox-body-bd-sidebar-nodeinfo' size='small' type="inner" title={nodeType}>
-                                {nodeType === 'node' && <Form layout='horizontal'>
+                                {(nodeType === 'node' || nodeType === 'edge') && <Form layout='horizontal'>
                                     <Form.Item label="Label" {...FOEM_ITEM_LAYOUT}>
                                         {getFieldDecorator('labelName', {
                                             
                                         })(<Input autoComplete='off' onChange={this.handleChange} onBlur={this.handleBlur} />)}
+                                    </Form.Item>
+                                </Form>}
+                                {nodeType === 'edge' && <Form layout='horizontal'>
+                                    <Form.Item label="Shape" {...FOEM_ITEM_LAYOUT}>
+                                        {getFieldDecorator('labelShape', {
+                                            
+                                        })(
+                                            <Select onChange={this.handleEdgeChange}>
+                                                <Option value="flow-smooth">Smooth</Option>
+                                                <Option value="flow-polyline">Polyline</Option>
+                                                <Option value="flow-polyline-round">Polyline Round</Option>
+                                            </Select>
+                                        )}
                                     </Form.Item>
                                 </Form>}
                             </Card>

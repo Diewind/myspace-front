@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown,Select} from 'antd'
-import {FOEM_ITEM_LAYOUT} from '../../utils/constants'
+import {FOEM_ITEM_LAYOUT} from '../../../utils/constants'
 import G6Editor from '@antv/g6-editor';
-import './mind.less';
+import '../mind/index.less';
 import flowDatas from './flowDatas'
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-class Koni extends Component {
+class Flow extends Component {
 
     constructor(props){
         super(props);
@@ -40,8 +40,8 @@ class Koni extends Component {
         const toolBox = new G6Editor.Toolbar({
             container: tool
         });
-        const contentBox = new G6Editor.Koni({
-            defaultData: data,
+        const contentBox = new G6Editor.Flow({
+            // defaultData: data,
             graph: {
                 container: content,
                 height: window.innerHeight - 280
@@ -126,7 +126,7 @@ class Koni extends Component {
         currentPage.on('afteritemunselected', ev=>{
             console.log('afteritemunselected',ev);
         }); // 取消选中后
-        currentPage.read(data);
+        // currentPage.read(data);
     }
 
     // 设置数据
@@ -232,7 +232,7 @@ class Koni extends Component {
                                         message: '请输入标题',
                                     },
                                 ],
-                            })(<Input autoComplete='off' placeholder='拓扑编辑器' />)}
+                            })(<Input autoComplete='off' placeholder='流程编辑器' />)}
                         </Form.Item>
                         <Form.Item label="描述">
                             {getFieldDecorator('desc', {
@@ -242,7 +242,7 @@ class Koni extends Component {
                                         message: '请输入描述',
                                     },
                                 ],
-                            })(<TextArea autoComplete='off' rows={4} placeholder='拓扑结构图是指由网络节点设备和通信介质构成的网络结构图' />)}
+                            })(<TextArea autoComplete='off' rows={4} placeholder='千言万语不如一张图，流程图是表示算法思路的好方法' />)}
                         </Form.Item>
                     </Form>
                 </div>
@@ -357,19 +357,16 @@ class Koni extends Component {
                         <div className="mindbox-body-bd-sidebar mindbox-body-bd-flow-sidebar-left" ref='itempanel'>
                             <Card>
                                 <div className="optbox">
-                                <img draggable="false"
-                                    src="https://gw.alipayobjects.com/zos/rmsportal/NKmorGEesOtYawmMJkhi.svg"
-                                    data-type="node" data-size="40" data-color="#69C0FF" data-label="Bank" className="getItem" />
+                                    <img draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/ZnPxbVjKYADMYxkTQXRi.svg" data-type="node" data-shape="flow-circle" data-size="72*72" data-color="#FA8C16" data-label="起止节点" className="getItem" />
                                 </div>
                                 <div className="optbox">
-                                <img draggable="false"
-                                    src="https://gw.alipayobjects.com/zos/rmsportal/qXItsPCgijgVkgLiattJ.svg"
-                                    data-type="node" data-size="40" data-color="#5CDBD3" data-label="Person" className="getItem"/>
+                                    <img draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/wHcJakkCXDrUUlNkNzSy.svg" data-type="node" data-shape="flow-rect" data-size="80*48" data-color="#1890FF" data-label="常规节点" className="getItem" />
                                 </div>
                                 <div className="optbox">
-                                <img draggable="false"
-                                    src="https://gw.alipayobjects.com/zos/rmsportal/msMyjRAdZvDOLOeimTYF.svg"
-                                    data-type="node" data-size="40" data-color="#B37FEB" data-label="Country" className="getItem"/>
+                                    <img draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/SnWIktArriZRWdGCnGfK.svg" data-type="node" data-shape="flow-rhombus" data-size="80*72" data-color="#13C2C2" data-label="分叉节点" className="getItem" />
+                                </div>
+                                <div className="optbox">
+                                    <img draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/rQMUhHHSqwYsPwjXxcfP.svg" data-type="node" data-shape="flow-capsule" data-size="80*48" data-color="#722ED1" data-label="模型节点" className="getItem" />
                                 </div>
                             </Card>
                         </div>
@@ -456,4 +453,4 @@ class Koni extends Component {
     }
 }
 
-export default Form.create()(Koni);
+export default Form.create()(Flow);

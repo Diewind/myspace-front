@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown} from 'antd'
 import {FOEM_ITEM_LAYOUT} from '../../../utils/constants'
 import G6Editor from '@antv/g6-editor';
-import mindDatas from './mindDatas'
-import './mind.less';
+import mindDatas from './mindDatas.json'
+import './index.less';
 
 const { TextArea } = Input;
 

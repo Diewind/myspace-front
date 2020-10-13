@@ -3,7 +3,7 @@ import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown,Select} from 'antd
 import {FOEM_ITEM_LAYOUT} from '../../../utils/constants'
 import G6Editor from '@antv/g6-editor';
 import '../mind/index.less';
-import flowDatas from './flowDatas'
+import flowDatas from './koniDatas.json'
 
 const { TextArea } = Input;
 const { Option } = Select;

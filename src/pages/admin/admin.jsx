@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import memoryUtils from '../../utils/memoryUtils'
 import Left from '../../components/left'
 import Header from '../../components/header'
+import PageRouters from '../../config/routers'
 import Home from '../home/home'
 import Category from '../category/category'
 import Product from '../product/product'
@@ -18,7 +19,6 @@ import Koni from '../learnTools/koni'
 import NotFound from '../notFound'
 import { Layout } from 'antd';
 const { Content, Footer, Sider } = Layout;
-
 
 
 // 管理的路由组件
@@ -53,21 +53,7 @@ export default class Admin extends Component {
                         toggle={this.toggle}
                     />
                     <Content style={{margin:20,backgroundColor:'#fff'}}>
-                        <Switch>
-                            <Redirect exact from='/' to='/home' />
-                            <Route path='/home' component={Home} />
-                            <Route path='/category' component={Category} />
-                            <Route path='/product' component={Product} />
-                            <Route path='/role' component={Role} />
-                            <Route path='/user' component={User} />
-                            <Route path='/charts/bar' component={Bar} />
-                            <Route path='/charts/line' component={Line} />
-                            <Route path='/charts/pie' component={Pie} />
-                            <Route path='/learnTools/mind' component={Mind} />
-                            <Route path='/learnTools/flow' component={Flow} />
-                            <Route path='/learnTools/koni' component={Koni} />
-                            <Route component={NotFound} />
-                        </Switch>
+                        <PageRouters />
                     </Content>
                     <Footer style={{textAlign:'center'}}>本系统由pilot开发，版权所有，盗版必究！</Footer>
                 </Layout>

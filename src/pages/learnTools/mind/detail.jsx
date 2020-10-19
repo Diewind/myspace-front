@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown} from 'antd'
+import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown,Select} from 'antd'
 import {FOEM_ITEM_LAYOUT} from '../../../utils/constants'
 import G6Editor from '@antv/g6-editor';
 import mindDatas from './mindDatas.json'
 import './index.less';
-
+import LinkButton from '../../../components/link-button'
 const { TextArea } = Input;
-
+const { Option } = Select;
 class MindDetail extends Component {
 
     constructor(props){
@@ -127,6 +127,10 @@ class MindDetail extends Component {
         const data = currentPage.save();
     }
 
+    handleChange = (e) => {
+
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const { nodeType }= this.state;
@@ -147,8 +151,21 @@ class MindDetail extends Component {
                 <Menu.Item key="mmap">.MMAP</Menu.Item>
             </Menu>
         );
+        const title = (
+            <span>
+                <LinkButton>
+                    <Icon 
+                        type='arrow-left' 
+                        style={{marginRight:15,fontSize:20}}
+                        onClick={()=>this.props.history.goBack()}
+                    />
+                </LinkButton>
+                <span>导图详情</span>
+            </span>
+        );
         return (
             <div className="mindbox">
+                <Card title={title} className='product-detail'>
                 <div className="mindbox-header">
                     <Row className="mindbox-top" type="flex" justify="end">
                         <Button onClick={this.importFile}>导入</Button>
@@ -179,6 +196,20 @@ class MindDetail extends Component {
                                     },
                                 ],
                             })(<TextArea autoComplete='off' rows={4} placeholder='脑图是表达发散性思维的有效图形思维工具 ，它简单却又很有效，是一种实用性的思维工具' />)}
+                        </Form.Item>
+                        <Form.Item label="分类">
+                            {getFieldDecorator('category', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: '请选择分类',
+                                    },
+                                ],
+                            })(<Select placeholder='请选择分类' onChange={this.handleChange}>
+                                <Option value="jack">语文</Option>
+                                <Option value="lucy">数学</Option>
+                            </Select>
+                            )}
                         </Form.Item>
                     </Form>
                 </div>
@@ -342,6 +373,7 @@ class MindDetail extends Component {
                         </div>
                     </div>
                 </div>
+                </Card>
             </div>
         )
     }

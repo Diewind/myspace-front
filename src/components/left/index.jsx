@@ -131,8 +131,21 @@ class LeftNav extends Component{
     render(){
         // 得到当前请求的路由路径
         let path = this.props.location.pathname;
-        if(path.indexOf('/product') === 0){
-            path = '/product';
+        switch (true) {
+            case path.indexOf('/product') === 0:
+                path = '/product';
+                break;
+            case path.indexOf('/learnTools/mind') === 0:
+                path = '/learnTools/mind';
+                break;
+            case path.indexOf('/learnTools/flow') === 0:
+                path = '/learnTools/flow';
+                break;
+            case path.indexOf('/learnTools/koni') === 0:
+                path = '/learnTools/koni';
+                break;
+            default:
+                break;
         }
         // 得到当前需要打开菜单项的key
         const openKey = this.openKey;

@@ -5,6 +5,8 @@ import G6Editor from '@antv/g6-editor';
 import mindDatas from './mindDatas.json'
 import './index.less';
 import LinkButton from '../../../components/link-button'
+import MiniMap from '../components/Minimap'
+import Toolbar from '../components/Toolbar'
 const { TextArea } = Input;
 const { Option } = Select;
 class MindDetail extends Component {
@@ -22,6 +24,9 @@ class MindDetail extends Component {
                 ]
             }
         }
+
+        const editor = new G6Editor();
+        this.editor = editor;
     }
 
     componentDidMount() {
@@ -38,13 +43,13 @@ class MindDetail extends Component {
         const contextmenu = this.refs.contextmenu;
         const detail = this.refs.detail;
         const minimap = this.refs.minimap;
-        const editor = new G6Editor();
+        
         const {setFieldsValue} = this.props.form;
         const {data} = this.state;
         
-        const toolBox = new G6Editor.Toolbar({
-            container: tool
-        });
+        // const toolBox = new G6Editor.Toolbar({
+        //     container: tool
+        // });
         const contentBox = new G6Editor.Mind({
             defaultData: data,
             graph: {
@@ -58,22 +63,21 @@ class MindDetail extends Component {
         const detailBox = new G6Editor.Detailpannel({
             container: detail
         });
-        const minimapBox = new G6Editor.Minimap({
-            container: minimap,
-            viewportBackStyle:'#fff',
-            viewportWindowStyle:'#fff',
-            fitView:true,
-            width:197
-        });
+        // const minimapBox = new G6Editor.Minimap({
+        //     container: minimap,
+        //     viewportBackStyle:'#fff',
+        //     viewportWindowStyle:'#fff',
+        //     fitView:true,
+        //     width:197
+        // });
         
-        editor.add(toolBox);
-        editor.add(contentBox);
-        editor.add(contextmenuBox);
-        editor.add(detailBox);
-        editor.add(minimapBox);
+        // this.editor.add(toolBox);
+        this.editor.add(contentBox);
+        this.editor.add(contextmenuBox);
+        this.editor.add(detailBox);
+        // this.editor.add(minimapBox);
 
-        this.editor = editor;
-        const currentPage = editor.getCurrentPage();
+        const currentPage = this.editor.getCurrentPage();
         // 清空默认选中
         currentPage.clearSelected();
         currentPage.on('click',(ev)=>{
@@ -215,7 +219,7 @@ class MindDetail extends Component {
                 </div>
                 <div className="mindbox-body">
                     <div className='mindbox-body-hd'>
-                        <div className="toolbar" ref='tool'>
+                        {/* <div className="toolbar" ref='tool'>
                             <div className="command" data-command="undo">
                                 <Tooltip title='Undo' placement="bottom">
                                     <span className='toolicon ' role='img'>
@@ -289,7 +293,8 @@ class MindDetail extends Component {
                                     </span>
                                 </Tooltip>
                             </div>
-                        </div>
+                        </div> */}
+                        <Toolbar editor={this.editor} type='mind' />
                     </div>
                     <div className="mindbox-body-bd">
                         <div className="mindbox-body-bd-content" ref='content'></div>
@@ -304,7 +309,8 @@ class MindDetail extends Component {
                                 </Form>}
                             </Card>
                             <Card size='small' type="inner" title='minimap'>
-                                <div className="minimap" ref='minimap'></div>
+                                {/* <div className="minimap" ref='minimap'></div> */}
+                                <MiniMap editor={this.editor} />
                             </Card>
                         </div>
                     </div>

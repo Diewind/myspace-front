@@ -177,6 +177,7 @@ class Role extends Component {
                         }
                     }}
                     onRow={this.onRow}
+                    size='small'
                 />
                 <Modal
                     title="添加角色"

@@ -191,6 +191,7 @@ export default class Home extends Component {
                         showQuickJumper:true,
                         onChange:this.getProducts
                     }}
+                    size='small'
                 />
             </Card>
         )

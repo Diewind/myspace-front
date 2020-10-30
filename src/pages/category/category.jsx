@@ -309,6 +309,7 @@ class Category extends Component {
                             defaultPageSize:5,
                             showQuickJumper:true
                         }}
+                        size='small'
                     />
                 </Card>
                 <Modal

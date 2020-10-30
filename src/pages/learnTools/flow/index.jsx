@@ -11,12 +11,22 @@ import {
 import LinkButton from '../../../components/link-button'
 import {reqProducts,reqSearchProducts,reqUpdateStatus,delProduct} from '../../../api'
 import {PAGE_SIZE} from '../../../utils/constants'
+
+import Mock from 'mockjs'
 const Option = Select.Option;
 
 export default class Index extends Component {
     state = {
         total:0,//商品的总数量
-        products:[],//商品的数组
+        products:Mock.mock({
+            'list|15': [{
+                'id': '@guid()',
+                'title': '@ctitle()',
+                'desc': '@cparagraph',
+                'category':'@cword(3)',
+                'updateTime':'@datetime()',
+            }]
+        }).list,//商品的数组
         loading:false,
         searchName:'', //搜索的关键字
         searchType:'productName'//根据哪个字段搜索
@@ -36,57 +46,41 @@ export default class Index extends Component {
         //     products:[
         //         {
         //         id: '1',
-        //         name: '苹果笔记本',
-        //         desc: '网上一直流传有关苹果研发16英寸MacBook Pro的消息,昨日网上也流传出了一组16英寸苹果MacBook Pro 2019的渲染图,而近日有人从最新的macOS beta版系..',
-        //         price:9998,
-        //         status:0
-        //         },
-        //         {
-        //         id: '2',
-        //         name: '戴尔笔记本',
-        //         desc: '戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本',
-        //         price:6988,
-        //         status:1
+        //         title: '苹果笔记本',
+        //         desc: '网上一直流传有MacBook Pro 2019的渲染图,而近日有人从最新的macOS beta版系..',
+        //         category:'数学',
+        //         updateTime:'2020年10月19日15:18:47',
         //         }
         //     ]
         // });
         this.columns = [
             {
-              title: '商品名称',
-              dataIndex: 'name'
+                title: '名称',
+                dataIndex: 'title',
+                width:'15%',
+                ellipsis:true
             },
             {
-              title: '商品描述',
-              dataIndex: 'desc'
+                title: '描述',
+                dataIndex: 'desc',
+                width:'50%',
+                ellipsis:true
             },
             {
-              title: '价格',
-              dataIndex: 'price',
-              render: (price) => '￥' + price
+                title: '所属分类',
+                dataIndex: 'category',
+                width:'15%',
+                ellipsis:true
             },
             {
-                title: '状态',
-                dataIndex: 'status',
-                width:100,
-                render: (status,records) => {
-                    return (
-                        <span>
-                            <Button 
-                                type='primary' 
-                                onClick={()=>{
-                                    this.updateStatus(records.id,status===1?2:1);
-                                }}
-                            >
-                                {status === 1 ? '下架' : '上架'}
-                            </Button>
-                            <span>{status === 1 ? '在售' : '已下架'}</span>
-                        </span>
-                    )
-                }
+                title: '更新时间',
+                dataIndex: 'updateTime',
+                width:'20%',
+                ellipsis:true
             },
             {
                 title: '操作',
-                width:100,
+                width: '20%',
                 render: (product) => {
                     return (
                         <span>
@@ -124,6 +118,7 @@ export default class Index extends Component {
         const {searchName,searchType} = this.state;
         // 如果搜索关键字有值，说明要搜索分页
         let result;
+        this.setState({loading:false});
         if(searchName){
             result = await reqSearchProducts({pageNum,pageSize:PAGE_SIZE,searchName,searchType});
         }else{
@@ -151,7 +146,7 @@ export default class Index extends Component {
     }
 
     componentDidMount() {
-        this.getProducts(1);
+        // this.getProducts(1);
     }
     
     
@@ -182,7 +177,7 @@ export default class Index extends Component {
                     bordered
                     dataSource={products}
                     columns={this.columns}
-                    rowKey={'id'}
+                    rowKey='id'
                     loading={loading}
                     pagination={{
                         current:this.pageNum,
@@ -191,6 +186,8 @@ export default class Index extends Component {
                         showQuickJumper:true,
                         onChange:this.getProducts
                     }}
+                    size='small'
+                    scroll='120%'
                 />
             </Card>
         )

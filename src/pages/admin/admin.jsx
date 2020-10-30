@@ -99,7 +99,7 @@ export default class Admin extends Component {
                                             <Redirect to='/learnTools/koni' />
                                         </Switch>
                                     </Route>
-                                    <Redirect to='/learnTools/mind' />
+                                    <Route component={NotFound} />
                                 </Switch>
                             </Route>
                             <Route component={NotFound} />

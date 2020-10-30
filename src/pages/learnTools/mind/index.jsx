@@ -11,12 +11,22 @@ import {
 import LinkButton from '../../../components/link-button'
 import {reqProducts,reqSearchProducts,reqUpdateStatus,delProduct} from '../../../api'
 import {PAGE_SIZE} from '../../../utils/constants'
+
+import Mock from 'mockjs'
 const Option = Select.Option;
 
 export default class Index extends Component {
     state = {
         total:0,//商品的总数量
-        products:[],//商品的数组
+        products:Mock.mock({
+            'list|15': [{
+                'id': '@guid()',
+                'title': '@ctitle()',
+                'desc': '@cparagraph',
+                'category':'@cword(3)',
+                'updateTime':'@datetime()',
+            }]
+        }).list,//商品的数组
         loading:false,
         searchName:'', //搜索的关键字
         searchType:'productName'//根据哪个字段搜索
@@ -32,98 +42,21 @@ export default class Index extends Component {
     }
     // 初始化table的列的数组
     initColumns = () => {
-        this.setState({
-            products:[
-                {
-                id: '1',
-                name: '苹果笔记本',
-                desc: '网上一直流传有MacBook Pro 2019的渲染图,而近日有人从最新的macOS beta版系..',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '2',
-                name: '戴尔笔记本',
-                desc: '戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '3',
-                name: '苹果笔记本',
-                desc: '网上一直流传有MacBook Pro 2019的渲染图,而近日有人从最新的macOS beta版系..',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '4',
-                name: '戴尔笔记本',
-                desc: '戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '5',
-                name: '苹果笔记本',
-                desc: '网上一直流传有MacBook Pro 2019的渲染图,而近日有人从最新的macOS beta版系..',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '6',
-                name: '戴尔笔记本',
-                desc: '戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '7',
-                name: '苹果笔记本',
-                desc: '网上一直流传有MacBook Pro 2019的渲染图,而近日有人从最新的macOS beta版系..',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '8',
-                name: '戴尔笔记本',
-                desc: '戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '9',
-                name: '苹果笔记本',
-                desc: '网上一直流传有MacBook Pro 2019的渲染图,而近日有人从最新的macOS beta版系..',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '10',
-                name: '戴尔笔记本',
-                desc: '戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '11',
-                name: '苹果笔记本',
-                desc: '网上一直流传有MacBook Pro 2019的渲染图,而近日有人从最新的macOS beta版系..',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-                {
-                id: '12',
-                name: '戴尔笔记本',
-                desc: '戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本戴尔笔记本',
-                category:'数学',
-                updateTime:'2020年10月19日15:18:47',
-                },
-            ]
-        });
+        // this.setState({
+        //     products:[
+        //         {
+        //         id: '1',
+        //         title: '苹果笔记本',
+        //         desc: '网上一直流传有MacBook Pro 2019的渲染图,而近日有人从最新的macOS beta版系..',
+        //         category:'数学',
+        //         updateTime:'2020年10月19日15:18:47',
+        //         }
+        //     ]
+        // });
         this.columns = [
             {
                 title: '名称',
-                dataIndex: 'name',
+                dataIndex: 'title',
                 width:'15%',
                 ellipsis:true
             },

@@ -155,6 +155,7 @@ export default class User extends Component {
                     pagination={{
                         defaultPageSize:PAGE_SIZE
                     }}
+                    size='small'
                     // rowSelection={{type:'radio',selectedRowKeys:[role.id]}}
                     // onRow={this.onRow}
                 />

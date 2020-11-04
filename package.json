@@ -58,5 +58,6 @@
     "jsonp": "^0.2.1",
     "redux-devtools-extension": "^2.13.8"
   },
-  "proxy": "http://localhost:8888"
+  "proxy": "http://localhost:8888",
+  "homepage": "."
 }

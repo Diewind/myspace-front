@@ -40,9 +40,9 @@ export default class Admin extends Component {
     render() {
         const user = memoryUtils.user;
         // 如果内存中没有存储user,表示当前没有登录
-        if(!user || !user.id || Cookies.get('user')){
+        if(!user || !user.id || !Cookies.get('user')){
             // 自动跳转到登录
-            // return <Redirect to='/login/' />;
+            return <Redirect to='/login/' />;
         }
         return (
             <Layout style={{minHeight:'100%'}}>

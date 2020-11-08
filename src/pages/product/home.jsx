@@ -53,11 +53,13 @@ export default class Home extends Component {
         this.columns = [
             {
               title: '商品名称',
-              dataIndex: 'name'
+              dataIndex: 'name',
+              ellipsis:true
             },
             {
               title: '商品描述',
-              dataIndex: 'desc'
+              dataIndex: 'desc',
+              ellipsis:true
             },
             {
               title: '价格',
@@ -67,7 +69,7 @@ export default class Home extends Component {
             {
                 title: '状态',
                 dataIndex: 'status',
-                width:100,
+                width:230,
                 render: (status,records) => {
                     return (
                         <span>
@@ -86,7 +88,7 @@ export default class Home extends Component {
             },
             {
                 title: '操作',
-                width:100,
+                width:150,
                 render: (product) => {
                     return (
                         <span>

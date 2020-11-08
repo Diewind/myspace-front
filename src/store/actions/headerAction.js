@@ -2,7 +2,7 @@ import {
     headerType
 } from '../actionTypes/index'
 
-class HeaderAction {
+class headerAction {
     // 设置头部标题的同步action
     setHeadTitle = (headTitle = '首页') => ({
         type:headerType['SET_HEAD_TITLE'],
@@ -10,4 +10,4 @@ class HeaderAction {
     })
 }
 
-export default new HeaderAction();
+export default new headerAction();

@@ -19,7 +19,7 @@ export default class Index extends Component {
     state = {
         total:0,//商品的总数量
         products:Mock.mock({
-            'list|15': [{
+            'list|200': [{
                 'id': '@guid()',
                 'title': '@ctitle()',
                 'desc': '@cparagraph',

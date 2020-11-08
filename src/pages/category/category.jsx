@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Card,Table,Input, InputNumber,Button,Icon,Form,message,Popconfirm,Modal} from 'antd'
 import LinkButton from '../../components/link-button/index'
+import {PAGE_SIZE} from '../../utils/constants'
 // 可编辑单元格组件
 // import EditableInputs from '../../components/editableInput/index'
 import {reqCategory,reqAddCategory,reqUpdateCategory,reqDeleteCategory} from '../../api/index'
@@ -306,7 +307,7 @@ class Category extends Component {
                         bordered={true}
                         loading={loading}
                         pagination={{
-                            defaultPageSize:5,
+                            defaultPageSize:PAGE_SIZE,
                             showQuickJumper:true
                         }}
                         size='small'

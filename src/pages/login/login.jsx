@@ -40,11 +40,6 @@ class Login extends Component {
                 console.log('校验失败!');
             }
         });
-        
-        // 得到form对象
-        // const form = this.props.form;
-        // // 获取表单项的输入数据
-        // const values = form.getFieldsValue();
     }
 
     validatorPwd = (rule,value,callback) => {
@@ -118,7 +113,7 @@ class Login extends Component {
                                     <Input
                                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         type="password"
-                                        placeholder="密码"
+                                        placeholder="默认密码admin"
                                     />
                                 )
                             }

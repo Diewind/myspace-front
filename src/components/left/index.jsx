@@ -77,7 +77,7 @@ class LeftNav extends Component{
         const path = this.props.location.pathname;
         return menuList.reduce((pre,item)=>{
             // 如果当前用户有item对应的权限，才需要显示对应的菜单
-            if(this.hasAuth(item) || true){
+            if(this.hasAuth(item)){
                 // 向pre添加<Menu.Item>
                 if(!item.children){
                     // 判断item是否是当前对应的item

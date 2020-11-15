@@ -61,7 +61,7 @@ class PicturesWall extends Component {
   // file : 当前操作的图片文件（上传/删除）
   // filelist : 已上传图片的文件数组
   handleChange = async ({ file,fileList }) => {
-    console.log(file,fileList);
+    // console.log(file,fileList);
 
     // 一旦上传成功，将当前上传的file的信息修正(name,url)
     if(file.status === 'done'){

@@ -17,7 +17,6 @@ class EditForm extends PureComponent {
     render() {
         const {getFieldDecorator} = this.props.form;
         const {roles,user} = this.props;
-        console.log('aaaa',roles);
         // 指定Item布局的配置对象
         const formItemLayout = {
             labelCol: {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Redirect,Route,Switch} from 'react-router-dom'
 import Cookies from 'js-cookie'
-import memoryUtils from '../../utils/memoryUtils'
+// import memoryUtils from '../../utils/memoryUtils'
 
 import Left from '../../components/left'
 import Header from '../../components/header'
@@ -38,9 +38,10 @@ export default class Admin extends Component {
         });
     }
     render() {
-        const user = memoryUtils.user;
+        // const user = memoryUtils.user;
         // 如果内存中没有存储user,表示当前没有登录
-        if(!user || !user.id || !Cookies.get('user')){
+        const user = Cookies.get('user');
+        if(!user){
             // 自动跳转到登录
             return <Redirect to='/login/' />;
         }

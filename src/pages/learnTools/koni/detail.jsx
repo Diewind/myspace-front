@@ -3,7 +3,7 @@ import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown,Select} from 'antd
 import {FOEM_ITEM_LAYOUT} from '../../../utils/constants'
 import G6Editor from '@antv/g6-editor';
 import '../mind/index.less';
-import flowDatas from './koniDatas.json'
+import koniDatas from './koniDatas.json'
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -14,7 +14,7 @@ class KoniDetail extends Component {
         super(props);
         this.state = {
             nodeType:'canvas',// 节点类型
-            data:flowDatas
+            // data:koniDatas
         }
     }
 
@@ -35,7 +35,7 @@ class KoniDetail extends Component {
         const minimap = this.refs.minimap;
         const editor = new G6Editor();
         const {setFieldsValue} = this.props.form;
-        const {data} = this.state;
+        // const {data} = this.state;
         
         const toolBox = new G6Editor.Toolbar({
             container: tool
@@ -76,7 +76,6 @@ class KoniDetail extends Component {
         // 清空默认选中
         currentPage.clearSelected();
         currentPage.on('click',(ev)=>{
-            console.log('abccc',ev);
             let nodeName = ev?.item?.model.label || '';
             let nodeType = ev?.item?.type || 'canvas';
             let nodeShape = ev?.item?.shapeObj.type || '';
@@ -89,31 +88,32 @@ class KoniDetail extends Component {
             });
         });
         currentPage.on('beforechange', ev=>{
-            console.log('beforechange',ev);
         })
 
         currentPage.on('afterchange', ev=>{
-            console.log('afterchange',ev);
         })
 
         currentPage.on('beforeitemselected', ev=>{
-            console.log('beforeitemselected',ev);
         }); // 选中前
         currentPage.on('afteritemselected', ev=>{
-            console.log('afteritemselected',ev);
             let nodeName = ev?.item?.model.label || '';
             let nodeType = ev?.item?.type || 'canvas';
-            let newMode = ev?.item?.model;
-            let arr = this.state.data.nodes || [];
-            let isRepeat = arr.some(val=> val.id === newMode.id);
-            if(!isRepeat && nodeType !== 'edge'){
-                arr.push(newMode);
+            const arr = [];
+            const edgeArr = [];
+            if(ev.item && ev.item.dataMap){
+                for (const val of Object.values(ev.item.dataMap)) {
+                    if(val['source']){
+                        edgeArr.push(val);
+                    }else{
+                        arr.push(val)
+                    }
+                }
             }
             this.setState({
                 nodeType,
                 data:{
                     nodes:[...arr],
-                    edges:[...this.state.data.edges]
+                    edges:[...edgeArr]
                 }
             });
             setFieldsValue({
@@ -121,10 +121,8 @@ class KoniDetail extends Component {
             });
         }); // 选中后
         currentPage.on('beforeitemunselected', ev=>{
-            console.log('beforeitemunselected',ev);
         }); // 取消选中前
         currentPage.on('afteritemunselected', ev=>{
-            console.log('afteritemunselected',ev);
         }); // 取消选中后
         // currentPage.read(data);
     }
@@ -134,7 +132,6 @@ class KoniDetail extends Component {
         const currentPage = this.editor.getCurrentPage();
         const curSelect = currentPage.getSelected();
         let {data} = this.state;
-        console.log('aaab',curSelect,data);
         currentPage.read(data);
         currentPage.setSelected(curSelect[0]['model']['id'], true);
     }
@@ -142,19 +139,15 @@ class KoniDetail extends Component {
     handleChange = (e) => {
         const currentPage = this.editor.getCurrentPage();
         const curSelect = currentPage.getSelected();
-        console.log('aaaa',curSelect);
         curSelect[0]['model']['label'] = e.target.value;
     }
 
     handleEdgeChange = (e) => {
-        console.log('eee',e);
         const currentPage = this.editor.getCurrentPage();
         const curSelect = currentPage.getSelected();
-        console.log('aaaabbb',curSelect);
         // curSelect[0]['shapeObj']['type'] = e;
         let {data} = this.state;
         let edgesArr = data.edges.map(val=>{
-            console.log('aaaaccc',val.source ,curSelect[0]['model']['id']);
             if(val.source === curSelect[0]['model']['source']){
                 val['shape'] = e;
             }
@@ -170,7 +163,7 @@ class KoniDetail extends Component {
 
     // 导入
     importFile = () => {
-        const ndata = flowDatas;
+        const ndata = koniDatas;
         this.setState({
             data:ndata
         },()=>{
@@ -182,13 +175,13 @@ class KoniDetail extends Component {
 
     // 导出
     exportFileClick = (e) => {
-        const currentPage = this.editor.getCurrentPage();
-        const data = currentPage.save();
+        // const currentPage = this.editor.getCurrentPage();
+        // const data = currentPage.save();
     }
 
     save = () => {
-        const currentPage = this.editor.getCurrentPage();
-        const data = currentPage.save();
+        // const currentPage = this.editor.getCurrentPage();
+        // const data = currentPage.save();
     }
 
     render() {
@@ -359,16 +352,19 @@ class KoniDetail extends Component {
                                 <div className="optbox">
                                 <img draggable="false"
                                     src="https://gw.alipayobjects.com/zos/rmsportal/NKmorGEesOtYawmMJkhi.svg"
+                                    alt=""
                                     data-type="node" data-size="40" data-color="#69C0FF" data-label="Bank" className="getItem" />
                                 </div>
                                 <div className="optbox">
                                 <img draggable="false"
                                     src="https://gw.alipayobjects.com/zos/rmsportal/qXItsPCgijgVkgLiattJ.svg"
+                                    alt=""
                                     data-type="node" data-size="40" data-color="#5CDBD3" data-label="Person" className="getItem"/>
                                 </div>
                                 <div className="optbox">
                                 <img draggable="false"
                                     src="https://gw.alipayobjects.com/zos/rmsportal/msMyjRAdZvDOLOeimTYF.svg"
+                                    alt=""
                                     data-type="node" data-size="40" data-color="#B37FEB" data-label="Country" className="getItem"/>
                                 </div>
                             </Card>

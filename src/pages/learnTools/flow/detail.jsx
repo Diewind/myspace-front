@@ -14,7 +14,11 @@ class Index extends Component {
         super(props);
         this.state = {
             nodeType:'canvas',// 节点类型
-            data:flowDatas
+            data:{
+                nodes:[],
+                edges:[]
+            }
+            // data:flowDatas
         }
     }
 
@@ -35,7 +39,6 @@ class Index extends Component {
         const minimap = this.refs.minimap;
         const editor = new G6Editor();
         const {setFieldsValue} = this.props.form;
-        const {data} = this.state;
         
         const toolBox = new G6Editor.Toolbar({
             container: tool
@@ -76,7 +79,6 @@ class Index extends Component {
         // 清空默认选中
         currentPage.clearSelected();
         currentPage.on('click',(ev)=>{
-            console.log('abccc',ev);
             let nodeName = ev?.item?.model.label || '';
             let nodeType = ev?.item?.type || 'canvas';
             let nodeShape = ev?.item?.shapeObj.type || '';
@@ -89,31 +91,32 @@ class Index extends Component {
             });
         });
         currentPage.on('beforechange', ev=>{
-            console.log('beforechange',ev);
         })
 
         currentPage.on('afterchange', ev=>{
-            console.log('afterchange',ev);
         })
 
         currentPage.on('beforeitemselected', ev=>{
-            console.log('beforeitemselected',ev);
         }); // 选中前
         currentPage.on('afteritemselected', ev=>{
-            console.log('afteritemselected',ev);
             let nodeName = ev?.item?.model.label || '';
             let nodeType = ev?.item?.type || 'canvas';
-            let newMode = ev?.item?.model;
-            let arr = this.state.data.nodes || [];
-            let isRepeat = arr.some(val=> val.id === newMode.id);
-            if(!isRepeat && nodeType !== 'edge'){
-                arr.push(newMode);
+            const arr = [];
+            const edgeArr = [];
+            if(ev.item && ev.item.dataMap){
+                for (const val of Object.values(ev.item.dataMap)) {
+                    if(val['source']){
+                        edgeArr.push(val);
+                    }else{
+                        arr.push(val)
+                    }
+                }
             }
             this.setState({
                 nodeType,
                 data:{
                     nodes:[...arr],
-                    edges:[...this.state.data.edges]
+                    edges:[...edgeArr]
                 }
             });
             setFieldsValue({
@@ -121,10 +124,10 @@ class Index extends Component {
             });
         }); // 选中后
         currentPage.on('beforeitemunselected', ev=>{
-            console.log('beforeitemunselected',ev);
+
         }); // 取消选中前
         currentPage.on('afteritemunselected', ev=>{
-            console.log('afteritemunselected',ev);
+
         }); // 取消选中后
         // currentPage.read(data);
     }
@@ -134,7 +137,6 @@ class Index extends Component {
         const currentPage = this.editor.getCurrentPage();
         const curSelect = currentPage.getSelected();
         let {data} = this.state;
-        console.log('aaab',curSelect,data);
         currentPage.read(data);
         currentPage.setSelected(curSelect[0]['model']['id'], true);
     }
@@ -142,19 +144,15 @@ class Index extends Component {
     handleChange = (e) => {
         const currentPage = this.editor.getCurrentPage();
         const curSelect = currentPage.getSelected();
-        console.log('aaaa',curSelect);
         curSelect[0]['model']['label'] = e.target.value;
     }
 
     handleEdgeChange = (e) => {
-        console.log('eee',e);
         const currentPage = this.editor.getCurrentPage();
         const curSelect = currentPage.getSelected();
-        console.log('aaaabbb',curSelect);
         // curSelect[0]['shapeObj']['type'] = e;
         let {data} = this.state;
         let edgesArr = data.edges.map(val=>{
-            console.log('aaaaccc',val.source ,curSelect[0]['model']['id']);
             if(val.source === curSelect[0]['model']['source']){
                 val['shape'] = e;
             }
@@ -182,13 +180,13 @@ class Index extends Component {
 
     // 导出
     exportFileClick = (e) => {
-        const currentPage = this.editor.getCurrentPage();
-        const data = currentPage.save();
+        // const currentPage = this.editor.getCurrentPage();
+        // const data = currentPage.save();
     }
 
     save = () => {
-        const currentPage = this.editor.getCurrentPage();
-        const data = currentPage.save();
+        // const currentPage = this.editor.getCurrentPage();
+        // const data = currentPage.save(); alt=""
     }
 
     render() {
@@ -357,16 +355,16 @@ class Index extends Component {
                         <div className="mindbox-body-bd-sidebar mindbox-body-bd-flow-sidebar-left" ref='itempanel'>
                             <Card>
                                 <div className="optbox">
-                                    <img draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/ZnPxbVjKYADMYxkTQXRi.svg" data-type="node" data-shape="flow-circle" data-size="72*72" data-color="#FA8C16" data-label="起止节点" className="getItem" />
+                                    <img draggable="false" alt="" src="https://gw.alipayobjects.com/zos/rmsportal/ZnPxbVjKYADMYxkTQXRi.svg" data-type="node" data-shape="flow-circle" data-size="72*72" data-color="#FA8C16" data-label="起止节点" className="getItem" />
                                 </div>
                                 <div className="optbox">
-                                    <img draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/wHcJakkCXDrUUlNkNzSy.svg" data-type="node" data-shape="flow-rect" data-size="80*48" data-color="#1890FF" data-label="常规节点" className="getItem" />
+                                    <img draggable="false" alt="" src="https://gw.alipayobjects.com/zos/rmsportal/wHcJakkCXDrUUlNkNzSy.svg" data-type="node" data-shape="flow-rect" data-size="80*48" data-color="#1890FF" data-label="常规节点" className="getItem" />
                                 </div>
                                 <div className="optbox">
-                                    <img draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/SnWIktArriZRWdGCnGfK.svg" data-type="node" data-shape="flow-rhombus" data-size="80*72" data-color="#13C2C2" data-label="分叉节点" className="getItem" />
+                                    <img draggable="false" alt="" src="https://gw.alipayobjects.com/zos/rmsportal/SnWIktArriZRWdGCnGfK.svg" data-type="node" data-shape="flow-rhombus" data-size="80*72" data-color="#13C2C2" data-label="分叉节点" className="getItem" />
                                 </div>
                                 <div className="optbox">
-                                    <img draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/rQMUhHHSqwYsPwjXxcfP.svg" data-type="node" data-shape="flow-capsule" data-size="80*48" data-color="#722ED1" data-label="模型节点" className="getItem" />
+                                    <img draggable="false" alt="" src="https://gw.alipayobjects.com/zos/rmsportal/rQMUhHHSqwYsPwjXxcfP.svg" data-type="node" data-shape="flow-capsule" data-size="80*48" data-color="#722ED1" data-label="模型节点" className="getItem" />
                                 </div>
                             </Card>
                         </div>

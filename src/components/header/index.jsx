@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import {withRouter} from 'react-router-dom'
+import Cookies from 'js-cookie'
 import {Modal,Icon} from 'antd'
 import { connect } from 'react-redux'
 import LinkButton from '../link-button/index'
@@ -45,6 +46,7 @@ class Header extends Component{
                 // 删除保存的user数据
                 storageUtils.removeUser();
                 memoryUtils.user = {};
+                Cookies.remove('user');
                 // 跳转到login
                 this.props.history.replace('/login');
             }
@@ -54,8 +56,8 @@ class Header extends Component{
     getWeather = async () => {
         // 调用接口请求异步获取天气
         const result = await reqWeather('上海');
-        let city = result.data && result.data.cityInfo && result.data.cityInfo.city || '';
-        let {low='',high='',type,notice} = result.data && result.data.data && result.data.data.forecast[0] || {};
+        let city = result.data && result.data.cityInfo && result.data.cityInfo.city;
+        let {low='',high='',type,notice} = result.data && result.data.data && result.data.data.forecast[0];
         let templow = low.split(' ');
         let temphigh = high.split(' ');
         low = templow[templow.length-1];

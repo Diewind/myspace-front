@@ -11,10 +11,6 @@ class Toolbar extends Component {
         type:PropTypes.string
     }
 
-    constructor(props){
-        super(props);
-    }
-
     createToolbar(container) {
         return new G6Editor.Toolbar({
             container

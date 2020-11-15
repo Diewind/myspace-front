@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Row,Icon,Tooltip,Button,Form,Input,Card,Menu,Dropdown,Select} from 'antd'
+import {Row,Icon,Button,Form,Input,Card,Menu,Dropdown,Select} from 'antd'
 import {FOEM_ITEM_LAYOUT} from '../../../utils/constants'
 import G6Editor from '@antv/g6-editor';
 import mindDatas from './mindDatas.json'
@@ -38,11 +38,11 @@ class MindDetail extends Component {
      */
     init = () => {
         
-        const tool = this.refs.tool;
+        // const tool = this.refs.tool;
         const content = this.refs.content;
         const contextmenu = this.refs.contextmenu;
         const detail = this.refs.detail;
-        const minimap = this.refs.minimap;
+        // const minimap = this.refs.minimap;
         
         const {setFieldsValue} = this.props.form;
         const {data} = this.state;
@@ -108,6 +108,10 @@ class MindDetail extends Component {
         curSelect[0]['model']['label'] = e.target.value;
     }
 
+    handleCategoryChange = (e) => {
+        
+    }
+
     // 导入
     importFile = () => {
         const ndata = mindDatas;
@@ -122,17 +126,13 @@ class MindDetail extends Component {
 
     // 导出
     exportFileClick = (e) => {
-        const currentPage = this.editor.getCurrentPage();
-        const data = currentPage.save();
+        // const currentPage = this.editor.getCurrentPage();
+        // const data = currentPage.save();
     }
 
     save = () => {
-        const currentPage = this.editor.getCurrentPage();
-        const data = currentPage.save();
-    }
-
-    handleChange = (e) => {
-
+        // const currentPage = this.editor.getCurrentPage();
+        // const data = currentPage.save();
     }
 
     render() {
@@ -209,7 +209,7 @@ class MindDetail extends Component {
                                         message: '请选择分类',
                                     },
                                 ],
-                            })(<Select placeholder='请选择分类' onChange={this.handleChange}>
+                            })(<Select placeholder='请选择分类' onChange={this.handleCategoryChange}>
                                 <Option value="jack">语文</Option>
                                 <Option value="lucy">数学</Option>
                             </Select>

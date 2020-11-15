@@ -16,18 +16,16 @@ class Login extends Component {
         this.props.form.validateFields(async (err, values) => {
             // 校验成功
             if (!err) {
-                // console.log('提交登录的ajax请求', values);
                 const {username,password} = values;
                 const result = await reqLogin(username,password);
-                // console.log('请求成功',response.data);
-                // const result = response.data;
                 if(result.status === 0){// 登录成功
                     // 提示登录成功
                     message.success('登录成功');
                     // 保存user
                     const user = result.data || {};
                     // 保存在cookie中
-                    Cookies.set('user', user,{ expires: 7 });
+                    var inFifteenMinutes = new Date(new Date().getTime() + 2 * 60 * 60 * 1000); // 设置过期时间
+                    Cookies.set('user', user,{ expires: inFifteenMinutes });
                     memoryUtils.user = user;// 保存在内存中
                     storageUtils.saveUser(user);// 保存在local中
                     // 跳转到管理界面（不需要再回退到登录界面，所以用replace）
@@ -37,7 +35,7 @@ class Login extends Component {
                     message.error(result.msg);
                 }
             }else{
-                console.log('校验失败!');
+                // console.log('校验失败!');
             }
         });
     }
@@ -59,8 +57,9 @@ class Login extends Component {
 
     render() {
         // 如果用户已经登录，自动跳转到管理界面
-        const user = memoryUtils.user;
-        if(user && user.id){
+        // const user = memoryUtils.user;
+        const user = Cookies.get('user');
+        if(user){
             return <Redirect to='/' />;
         }
         // 得到具有强大功能的form对象

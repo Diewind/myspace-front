@@ -9,10 +9,6 @@ class Minimap extends Component {
     editor: PropTypes.object
   }
 
-  constructor(props){
-    super(props);
-  }
-
   createMinimap = (container) => {
     return new G6Editor.Minimap({
       container: container,

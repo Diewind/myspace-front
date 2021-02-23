@@ -54,6 +54,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^12.0.0",
+    "@commitlint/config-conventional": "^12.0.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-import": "^1.12.0",
     "babel-preset-es2015": "^6.24.1",
